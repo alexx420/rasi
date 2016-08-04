@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <title>Splash | RASI</title>
+                <link href="https://framework-gb.cdn.gob.mx/favicon.ico" rel="shortcut icon"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+            </f:facet>
+
+            <style>
+                body{
+                    background-color: #d9d9d9;
+                    background-image: url('img/SIAP_2016.jpg');
+                    background-size: 100% auto;
+                    background-repeat: no-repeat;
+                }
+            </style>
+        </h:head>
+        <h:body>
+
+            <script type="text/javascript">
+                //<![CDATA[
+                setTimeout(function () {
+                    window.location.replace("login.fac");
+                }, 1500);
+                //]]>
+            </script>
+        </h:body>
+    </f:view>
+</html>
+

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <title>Login | RASI</title>
+                <link href="https://framework-gb.cdn.gob.mx/favicon.ico" rel="shortcut icon"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+            </f:facet>
+            <style>
+                body{
+                    background-color: #d9d9d9;
+                    background-image: url('img/SIAP_2016.jpg');
+                    background-size: 100% auto;
+                    background-repeat: no-repeat;
+                }
+
+                form {
+                    box-sizing: border-box;
+                    width: 380px;
+                    margin: 10em auto 0;
+                    box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.2);
+                    border-radius: 3px;
+                }
+
+            </style>
+        </h:head>
+        <h:body>
+            <!--ajax status-->
+            <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+            <!--status dialog-->
+            <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                <p:graphicImage url="./img/ajaxloadingbar.gif" />
+            </p:dialog>
+            <!--Cell Editing with Click and RightClick-->
+            <h:form id="form" >
+                <p:growl id="growl" showDetail="true"  />
+
+                <p:panel id="pan" widgetVar="dlg" header="Iniciar sesión">  
+
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <h:outputLabel for="username" value="Usuario" />
+                        <p:inputText id="username" value="#{usuarioLoginView.username}" required="true" label="Usuario" />
+
+                        <h:outputLabel for="password" value="Contraseña" />
+                        <p:password id="password" value="#{usuarioLoginView.password}" required="true" label="Contraseña" />
+
+                        <f:facet name="footer">
+                            <p:commandButton value="Entrar" update="growl" styleClass="ui-priority-primary" actionListener="#{usuarioLoginView.login}"
+                                             oncomplete="handleLoginRequest(xhr, status, args)" />
+                        </f:facet>  
+                    </h:panelGrid>
+                </p:panel> 
+            </h:form>
+
+
+            <script type="text/javascript">
+                //<![CDATA[
+                function handleLoginRequest(xhr, status, args) {
+                    if (!args.validationFailed && args.loggedIn) {
+                        setTimeout(function () {
+                            window.location.replace(args.view);
+                        }, 500);
+                    } else {
+                        PF('dlg').jq.effect("shake", {times: 5}, 500);
+                    }
+                }
+                //]]>
+            </script>
+        </h:body>
+    </f:view>
+</html>

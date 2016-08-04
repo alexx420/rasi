@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 4/08/2016 04:32:59 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class catalog="rasi" name="com.siap.rasi.pojo.SolicitudInformacion" optimistic-lock="version" schema="dbo" table="solicitudInformacion">
+        <id name="id" type="long">
+            <column name="id"/>
+            <generator class="identity"/>
+        </id>
+        <property name="fecha" type="date">
+            <column length="10" name="fecha" not-null="true"/>
+        </property>
+        <property name="nombres" type="string">
+            <column name="nombres" not-null="true"/>
+        </property>
+        <property name="apellidoPaterno" type="string">
+            <column name="apellidoPaterno" not-null="true"/>
+        </property>
+        <property name="apellidoMaterno" type="string">
+            <column name="apellidoMaterno" not-null="true"/>
+        </property>
+        <property name="ocupacion" type="string">
+            <column name="ocupacion" not-null="true"/>
+        </property>
+        <property name="entidadFederativa" type="string">
+            <column name="entidadFederativa" not-null="true"/>
+        </property>
+        <property name="institucion" type="string">
+            <column name="institucion" not-null="true"/>
+        </property>
+        <property name="telefonoFijo" type="string">
+            <column name="telefonoFijo" not-null="true"/>
+        </property>
+        <property name="telefonoCelular" type="string">
+            <column name="telefonoCelular" not-null="true"/>
+        </property>
+        <property name="correo" type="string">
+            <column name="correo" not-null="true"/>
+        </property>
+        <property name="tipoInformacion" type="string">
+            <column name="tipoInformacion" not-null="true"/>
+        </property>
+        <property name="especifiqueInformacion" type="string">
+            <column name="especifiqueInformacion" not-null="true"/>
+        </property>
+        <property name="viaSolicitud" type="string">
+            <column name="viaSolicitud" not-null="true"/>
+        </property>
+        <property name="recibirInformacion" type="boolean">
+            <column name="recibirInformacion" not-null="true"/>
+        </property>
+        <property name="fechaAtencion" type="date">
+            <column length="10" name="fechaAtencion"/>
+        </property>
+        <property name="atendioSolicitud" type="string">
+            <column name="atendioSolicitud"/>
+        </property>
+    </class>
+</hibernate-mapping>
