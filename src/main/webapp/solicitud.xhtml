@@ -197,11 +197,11 @@ and open the template in the editor.
                         <!--recibir informacion select list-->
                         <p:column width="140" filterBy="#{solicitud.recibirInformacion}" headerText="Recibir información">
                             <p:cellEditor>
-                                <f:facet name="output"><h:outputText value="#{solicitud.recibirInformacion}" /></f:facet>
+                                <f:facet name="output"><h:outputText value="#{solicitud.recibirInformacion?'Si':'No'}" /></f:facet>
                                 <f:facet name="input">
                                     <h:selectOneMenu value="#{solicitud.recibirInformacion}" style="width:100%">
-                                        <f:selectItem itemLabel="true" itemValue="true" />
-                                        <f:selectItem itemLabel="false" itemValue="false" />
+                                        <f:selectItem itemLabel="Si" itemValue="true" />
+                                        <f:selectItem itemLabel="No" itemValue="false" />
                                     </h:selectOneMenu>
                                 </f:facet>
                             </p:cellEditor>
