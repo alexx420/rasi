@@ -20,6 +20,8 @@ and open the template in the editor.
             </f:facet>
         </h:head>
         <h:body>
+            <!--js translations-->
+            <script src="./js/util.js" type="text/javascript"/> 
             <!--custom stylesheet-->
             <link href="./css/style.css" rel="stylesheet" type="text/css"/> 
             <!--ajax status-->
@@ -76,53 +78,160 @@ and open the template in the editor.
                         <p:column width="50" headerText="ID">
                             <h:outputText value="#{solicitud.id}" />
                         </p:column>
-                        <p:column width="100" filterBy="#{solicitud.fecha}" headerText="fecha">
-                            <h:outputText value="#{solicitud.fecha}" />
+                        <!--fecha calendar-->
+                        <p:column width="100" filterBy="#{solicitud.fecha}" headerText="Fecha">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="#{solicitud.fecha}" > 
+                                        <f:convertDateTime pattern="EEE, dd-MMM-yyyy"/>
+                                    </h:outputText>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:calendar value="#{solicitud.fecha}" pages="2" locale="es"
+                                                required="true" label="Fecha"
+                                                readonlyInput="true" pattern="EEE, dd-MMM-yyyy"/>
+                                </f:facet>
+                            </p:cellEditor>
                         </p:column>
-                        <p:column width="140" filterBy="#{solicitud.nombres}" headerText="nombres">
-                            <h:outputText value="#{solicitud.nombres}" />
+                        <p:column width="140" filterBy="#{solicitud.nombres}" headerText="Nombres">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{solicitud.nombres}" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{solicitud.nombres}" style="width: 100%;" label="Nombres" maxlength="255"/></f:facet>
+                            </p:cellEditor>
                         </p:column>
-                        <p:column width="140" headerText="apellidoPaterno">
-                            <h:outputText value="#{solicitud.apellidoPaterno}" />
+                        <p:column width="140" filterBy="#{solicitud.apellidoPaterno}" headerText="Apellido paterno">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{solicitud.apellidoPaterno}" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{solicitud.apellidoPaterno}"  label="Apellido paterno" maxlength="255"/></f:facet>
+                            </p:cellEditor>
                         </p:column>
-                        <p:column width="140" headerText="apellidoMaterno">
-                            <h:outputText value="#{solicitud.apellidoMaterno}" />
+                        <p:column width="140" filterBy="#{solicitud.apellidoMaterno}" headerText="Apellido materno">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{solicitud.apellidoMaterno}" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{solicitud.apellidoMaterno}"  label="Apellido materno" maxlength="255"/></f:facet>
+                            </p:cellEditor>
                         </p:column>
-                        <p:column width="140" headerText="ocupacion">
-                            <h:outputText value="#{solicitud.ocupacion}" />
+                        <!--ocupacion select list-->
+                        <p:column width="140" filterBy="#{solicitud.ocupacion}" headerText="Ocupación">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{solicitud.ocupacion}" /></f:facet>
+                                <f:facet name="input">
+                                    <h:selectOneMenu value="#{solicitud.ocupacion}" style="width:100%">
+                                        <f:selectItems value="#{solicitudView.ocupaciones}" var="item" itemLabel="#{item.nombre}" itemValue="#{item.nombre}" />
+                                    </h:selectOneMenu>
+                                </f:facet>
+                            </p:cellEditor>
                         </p:column>
-                        <p:column width="140" headerText="entidadFederativa">
-                            <h:outputText value="#{solicitud.entidadFederativa}" />
+                        <!--entidad federativa select list-->
+                        <p:column width="140" filterBy="#{solicitud.entidadFederativa}" headerText="Entidad federativa">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{solicitud.entidadFederativa}" /></f:facet>
+                                <f:facet name="input">
+                                    <h:selectOneMenu value="#{solicitud.entidadFederativa}" style="width:100%">
+                                        <f:selectItems value="#{solicitudView.entidades}" var="item" itemLabel="#{item.nombre}" itemValue="#{item.nombre}" />
+                                    </h:selectOneMenu>
+                                </f:facet>
+                            </p:cellEditor>
                         </p:column>
-                        <p:column width="140" headerText="institucion">
-                            <h:outputText value="#{solicitud.institucion}" />
+                        <!--institucion text-->
+                        <p:column width="140" filterBy="#{solicitud.institucion}" headerText="Institución">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{solicitud.institucion}" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{solicitud.institucion}"  label="Institución" maxlength="255"/></f:facet>
+                            </p:cellEditor>
                         </p:column>
-                        <p:column width="140" headerText="telefonoFijo">
-                            <h:outputText value="#{solicitud.telefonoFijo}" />
+                        <!--telefono mask input-->
+                        <p:column width="140" filterBy="#{solicitud.telefonoFijo}" headerText="Teléfono fijo">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{solicitud.telefonoFijo}" /></f:facet>
+                                <f:facet name="input"><p:inputMask value="#{solicitud.telefonoFijo}" mask="(999) 99 99 99 99? x99999" label="Teléfono fijo"/></f:facet>
+                            </p:cellEditor>
                         </p:column>
-                        <p:column width="160" headerText="telefonoCelular">
-                            <h:outputText value="#{solicitud.telefonoCelular}" />
+                        <!--celular mask input-->
+                        <p:column width="160" filterBy="#{solicitud.telefonoCelular}" headerText="Teléfono celular">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{solicitud.telefonoCelular}" /></f:facet>
+                                <f:facet name="input"><p:inputMask value="#{solicitud.telefonoCelular}" mask="(999) 99 99 99 99 99" label="Teléfono celular"/></f:facet>
+                            </p:cellEditor>
                         </p:column>
-                        <p:column width="140" headerText="correo">
-                            <h:outputText value="#{solicitud.correo}" />
+                        <!--correo validacion-->
+                        <p:column width="140" filterBy="#{solicitud.correo}" headerText="Correo">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{solicitud.correo}" /></f:facet>
+                                <f:facet name="input">
+                                    <p:inputText id="email1" value="#{solicitud.correo}"  label="Correo" maxlength="255">
+                                        <f:validator validatorId="custom.emailValidator" />
+                                    </p:inputText>
+                                    <!--<p:message for="email1" display="tooltip" />-->
+                                </f:facet>
+                            </p:cellEditor>
                         </p:column>
-                        <p:column width="140" headerText="tipoInformacion">
-                            <h:outputText value="#{solicitud.tipoInformacion}" />
+                        <!--tipo informacion select list-->
+                        <p:column width="140" filterBy="#{solicitud.tipoInformacion}" headerText="Tipo de Información">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{solicitud.tipoInformacion}" /></f:facet>
+                                <f:facet name="input">
+                                    <h:selectOneMenu value="#{solicitud.tipoInformacion}" style="width:100%">
+                                        <f:selectItems value="#{solicitudView.tiposInformacion}" var="item" itemLabel="#{item.nombre}" itemValue="#{item.nombre}" />
+                                    </h:selectOneMenu>
+                                </f:facet>
+                            </p:cellEditor>
                         </p:column>
-                        <p:column width="140" headerText="especifiqueInformacion">
-                            <h:outputText value="#{solicitud.especifiqueInformacion}" />
+                        <!--especifique info text-->
+                        <p:column width="250" filterBy="#{solicitud.especifiqueInformacion}" headerText="Especifique información">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{solicitud.especifiqueInformacion}" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{solicitud.especifiqueInformacion}" label="Especifique información" maxlength="255"/></f:facet>
+                            </p:cellEditor>
                         </p:column>
-                        <p:column width="140" headerText="viaSolicitud">
-                            <h:outputText value="#{solicitud.viaSolicitud}" />
+                        <!--via solicitud select list-->
+                        <p:column width="140" filterBy="#{solicitud.viaSolicitud}" headerText="Vía de solicitud">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{solicitud.viaSolicitud}" /></f:facet>
+                                <f:facet name="input">
+                                    <h:selectOneMenu value="#{solicitud.viaSolicitud}" style="width:100%">
+                                        <f:selectItems value="#{solicitudView.viasSolicitud}" var="nombre" itemLabel="#{nombre}" itemValue="#{nombre}" />
+                                    </h:selectOneMenu>
+                                </f:facet>
+                            </p:cellEditor>
                         </p:column>
-                        <p:column width="140" headerText="recibirInformacion">
-                            <h:outputText value="#{solicitud.recibirInformacion}" />
+                        <!--recibir informacion select list-->
+                        <p:column width="140" filterBy="#{solicitud.recibirInformacion}" headerText="Recibir información">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{solicitud.recibirInformacion}" /></f:facet>
+                                <f:facet name="input">
+                                    <h:selectOneMenu value="#{solicitud.recibirInformacion}" style="width:100%">
+                                        <f:selectItem itemLabel="true" itemValue="true" />
+                                        <f:selectItem itemLabel="false" itemValue="false" />
+                                    </h:selectOneMenu>
+                                </f:facet>
+                            </p:cellEditor>
                         </p:column>
-                        <p:column width="140" headerText="fechaAtencion">
-                            <h:outputText value="#{solicitud.fechaAtencion}" />
+                        <!--fecha atencion calendar-->
+                        <p:column width="140" filterBy="#{solicitud.fechaAtencion}" headerText="Fecha de atención">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="#{solicitud.fechaAtencion}" > 
+                                        <f:convertDateTime pattern="EEE, dd-MMM-yyyy"/>
+                                    </h:outputText>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:calendar value="#{solicitud.fechaAtencion}" pages="2" locale="es"
+                                                required="true" label="Fecha atención"
+                                                readonlyInput="true" pattern="EEE, dd-MMM-yyyy"/>
+                                </f:facet>
+                            </p:cellEditor>
                         </p:column>
-                        <p:column width="140" headerText="atendioSolicitud">
-                            <h:outputText value="#{solicitud.atendioSolicitud}" />
+                        <!--atendio solicitud select list-->
+                        <p:column width="140" filterBy="#{solicitud.atendioSolicitud}" headerText="Atendió solicitud">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{solicitud.atendioSolicitud}" /></f:facet>
+                                <f:facet name="input">
+                                    <h:selectOneMenu value="#{solicitud.atendioSolicitud}" style="width:100%">
+                                        <f:selectItems value="#{solicitudView.direcciones}" var="item" itemLabel="#{item.nombre}" itemValue="#{item.nombre}" />
+                                    </h:selectOneMenu>
+                                </f:facet>
+                            </p:cellEditor>
                         </p:column>
 
                         <f:facet name="footer">

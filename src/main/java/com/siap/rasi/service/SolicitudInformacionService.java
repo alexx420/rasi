@@ -5,7 +5,11 @@
  */
 package com.siap.rasi.service;
 
+import com.siap.rasi.pojo.Direccion;
+import com.siap.rasi.pojo.EntidadFederativa;
+import com.siap.rasi.pojo.Ocupacion;
 import com.siap.rasi.pojo.SolicitudInformacion;
+import com.siap.rasi.pojo.TipoInformacion;
 import com.siap.rasi.util.HibernateUtil;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +33,82 @@ public class SolicitudInformacionService {
         try {
             tx = session.beginTransaction();
             list = session.createQuery("FROM SolicitudInformacion").list();
-            System.out.println("//listrows");
-            System.out.println(list);
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return list;
+    }
+
+    public List<TipoInformacion> getTiposInformacion() {
+        List<TipoInformacion> list = new ArrayList<>();
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            list = session.createQuery("FROM TipoInformacion").list();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return list;
+    }
+
+    public List<Direccion> getDirecciones() {
+        List<Direccion> list = new ArrayList<>();
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            list = session.createQuery("FROM Direccion").list();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return list;
+    }
+
+    public List<EntidadFederativa> getEntidades() {
+        List<EntidadFederativa> list = new ArrayList<>();
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            list = session.createQuery("FROM EntidadFederativa").list();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return list;
+    }
+
+    public List<Ocupacion> getOcupaciones() {
+        List<Ocupacion> list = new ArrayList<>();
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            list = session.createQuery("FROM Ocupacion").list();
             tx.commit();
         } catch (HibernateException e) {
             if (tx != null) {

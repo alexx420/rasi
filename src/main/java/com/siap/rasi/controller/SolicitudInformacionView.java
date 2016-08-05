@@ -9,9 +9,14 @@ package com.siap.rasi.controller;
  *
  * @author rafael.esquivel
  */
+import com.siap.rasi.pojo.Direccion;
+import com.siap.rasi.pojo.EntidadFederativa;
+import com.siap.rasi.pojo.Ocupacion;
 import com.siap.rasi.pojo.SolicitudInformacion;
+import com.siap.rasi.pojo.TipoInformacion;
 import com.siap.rasi.service.SolicitudInformacionService;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -42,6 +47,26 @@ public class SolicitudInformacionView implements Serializable {
 
     public List<SolicitudInformacion> getRows() {
         return rows;
+    }
+
+    public List<String> getViasSolicitud() {
+        return Arrays.asList(new String[]{"Teléfono", "Correo", "Redes sociales", "Visita", "Otra"});
+    }
+
+    public List<Direccion> getDirecciones() {
+        return service.getDirecciones();
+    }
+
+    public List<TipoInformacion> getTiposInformacion() {
+        return service.getTiposInformacion();
+    }
+
+    public List<Ocupacion> getOcupaciones() {
+        return service.getOcupaciones();
+    }
+
+    public List<EntidadFederativa> getEntidades() {
+        return service.getEntidades();
     }
 
     public void setRows(List<SolicitudInformacion> rows) {

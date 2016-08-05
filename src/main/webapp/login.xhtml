@@ -66,6 +66,7 @@ and open the template in the editor.
                         <p:commandButton value="Entrar" update="growl" styleClass="ui-priority-primary" actionListener="#{usuarioLoginView.login}"
                                          oncomplete="handleLoginRequest(xhr, status, args)" />
                     </f:facet>  
+                    <p:effect type="bounce" event="load" />
                 </p:panel> 
             </h:form>
 
