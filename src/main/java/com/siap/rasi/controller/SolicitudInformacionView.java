@@ -30,12 +30,12 @@ public class SolicitudInformacionView implements Serializable {
     private List<SolicitudInformacion> filteredRows;
     private boolean buttonDisabled;
 
-    @ManagedProperty("#{carService}")
+    @ManagedProperty("#{solicitudService}")
     private SolicitudInformacionService service;
 
     @PostConstruct
     public void init() {
-        rows = service.listCars();
+        rows = service.listRows();
         buttonDisabled = !rows.isEmpty();
         buttonDisabled = true;
     }
@@ -83,7 +83,7 @@ public class SolicitudInformacionView implements Serializable {
         if (newValue != null && !newValue.equals(oldValue)) {
             FacesMessage msg;
             try {
-                service.updateCar(currentCar);
+                service.updateRow(currentCar);
                 msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Edición correcta", "Anterior: " + oldValue + ", Nuevo:" + newValue);
             } catch (Exception e) {
                 msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falló edición", e.getMessage());
@@ -97,7 +97,7 @@ public class SolicitudInformacionView implements Serializable {
     }
 
     public void addRow() {
-        SolicitudInformacion car = service.addCar();
+        SolicitudInformacion car = service.addRow();
         rows.add(0, car);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro agregado", "ID: " + car.getId()));
     }
@@ -106,7 +106,7 @@ public class SolicitudInformacionView implements Serializable {
         int size = selectedRows.size();
         selectedRows.stream().map((selectedCar) -> selectedCar.getId()).forEach((id) -> {
             try {
-                service.deleteCar(id);
+                service.deleteRow(id);
             } catch (Exception e) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
             }

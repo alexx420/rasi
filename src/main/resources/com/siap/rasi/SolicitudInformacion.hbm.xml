@@ -14,40 +14,40 @@
             <column name="nombres" not-null="true"/>
         </property>
         <property name="apellidoPaterno" type="string">
-            <column name="apellidoPaterno" not-null="true"/>
+            <column name="apellidoPaterno" not-null="false"/>
         </property>
         <property name="apellidoMaterno" type="string">
-            <column name="apellidoMaterno" not-null="true"/>
+            <column name="apellidoMaterno" not-null="false"/>
         </property>
         <property name="ocupacion" type="string">
-            <column name="ocupacion" not-null="true"/>
+            <column name="ocupacion" not-null="false"/>
         </property>
         <property name="entidadFederativa" type="string">
-            <column name="entidadFederativa" not-null="true"/>
+            <column name="entidadFederativa" not-null="false"/>
         </property>
         <property name="institucion" type="string">
-            <column name="institucion" not-null="true"/>
+            <column name="institucion" not-null="false"/>
         </property>
         <property name="telefonoFijo" type="string">
-            <column name="telefonoFijo" not-null="true"/>
+            <column name="telefonoFijo" not-null="false"/>
         </property>
         <property name="telefonoCelular" type="string">
-            <column name="telefonoCelular" not-null="true"/>
+            <column name="telefonoCelular" not-null="false"/>
         </property>
         <property name="correo" type="string">
-            <column name="correo" not-null="true"/>
+            <column name="correo" not-null="false"/>
         </property>
         <property name="tipoInformacion" type="string">
-            <column name="tipoInformacion" not-null="true"/>
+            <column name="tipoInformacion" not-null="false"/>
         </property>
         <property name="especifiqueInformacion" type="string">
-            <column name="especifiqueInformacion" not-null="true"/>
+            <column name="especifiqueInformacion" not-null="false"/>
         </property>
         <property name="viaSolicitud" type="string">
-            <column name="viaSolicitud" not-null="true"/>
+            <column name="viaSolicitud" not-null="false"/>
         </property>
         <property name="recibirInformacion" type="boolean">
-            <column name="recibirInformacion" not-null="true"/>
+            <column name="recibirInformacion" not-null="false"/>
         </property>
         <property name="fechaAtencion" type="date">
             <column length="10" name="fechaAtencion"/>

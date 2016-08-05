@@ -71,13 +71,13 @@ and open the template in the editor.
 
                         <p:column selectionMode="multiple" style="width:16px;text-align:center" />
 
-                        <p:column  headerText="ID">
+                        <p:column width="50" headerText="ID">
                             <h:outputText value="#{solicitud.id}" />
                         </p:column>
-                        <p:column  headerText="fecha">
+                        <p:column width="100" headerText="fecha">
                             <h:outputText value="#{solicitud.fecha}" />
                         </p:column>
-                        <p:column  headerText="nombres">
+                        <p:column width="140" headerText="nombres">
                             <h:outputText value="#{solicitud.nombres}" />
                         </p:column>
                         <p:column  headerText="apellidoPaterno">
@@ -88,6 +88,39 @@ and open the template in the editor.
                         </p:column>
                         <p:column  headerText="ocupacion">
                             <h:outputText value="#{solicitud.ocupacion}" />
+                        </p:column>
+                        <p:column  headerText="entidadFederativa">
+                            <h:outputText value="#{solicitud.entidadFederativa}" />
+                        </p:column>
+                        <p:column  headerText="institucion">
+                            <h:outputText value="#{solicitud.institucion}" />
+                        </p:column>
+                        <p:column width="140" headerText="telefonoFijo">
+                            <h:outputText value="#{solicitud.telefonoFijo}" />
+                        </p:column>
+                        <p:column width="160" headerText="telefonoCelular">
+                            <h:outputText value="#{solicitud.telefonoCelular}" />
+                        </p:column>
+                        <p:column  headerText="correo">
+                            <h:outputText value="#{solicitud.correo}" />
+                        </p:column>
+                        <p:column  headerText="tipoInformacion">
+                            <h:outputText value="#{solicitud.tipoInformacion}" />
+                        </p:column>
+                        <p:column  headerText="especifiqueInformacion">
+                            <h:outputText value="#{solicitud.especifiqueInformacion}" />
+                        </p:column>
+                        <p:column  headerText="viaSolicitud">
+                            <h:outputText value="#{solicitud.viaSolicitud}" />
+                        </p:column>
+                        <p:column  headerText="recibirInformacion">
+                            <h:outputText value="#{solicitud.recibirInformacion}" />
+                        </p:column>
+                        <p:column  headerText="fechaAtencion">
+                            <h:outputText value="#{solicitud.fechaAtencion}" />
+                        </p:column>
+                        <p:column  headerText="atendioSolicitud">
+                            <h:outputText value="#{solicitud.atendioSolicitud}" />
                         </p:column>
 
 
