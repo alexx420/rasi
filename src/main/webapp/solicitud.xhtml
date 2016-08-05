@@ -20,6 +20,8 @@ and open the template in the editor.
             </f:facet>
         </h:head>
         <h:body>
+            <!--custom stylesheet-->
+            <link href="./css/style.css" rel="stylesheet" type="text/css"/> 
             <!--ajax status-->
             <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
             <!--status dialog-->
@@ -46,19 +48,19 @@ and open the template in the editor.
                     </f:facet>
                 </p:menubar>
                 <!--panel cars-->
-                <p:panel id="panel" header="Cars">  
+                <p:panel id="panel" header="Solicitudes de información">  
                     <!--datatable-->
                     <p:dataTable id="dtSolicitud" var="solicitud" value="#{solicitudView.rows}" 
                                  editable="true" editMode="cell" widgetVar="wvSolicitudes" 
                                  scrollRows="100" scrollable="true" liveScroll="true" 
-                                 scrollHeight="300" selection="#{solicitudView.selectedRows}" 
+                                 scrollHeight="380" selection="#{solicitudView.selectedRows}" 
                                  rowKey="#{solicitud.id}" emptyMessage="No se encontraron resultados"
                                  filteredValue="#{solicitudView.filteredRows}">
 
                         <f:facet name="header" >
                             <!--buscar en datatable-->
                             <p:outputPanel style="text-align: right !important;">
-                                <p:inputText id="globalFilter" onkeyup="PF('wvSolicitudes').filter()"  style="width:230px" placeholder="Buscar en todos los campos"/>
+                                <p:inputText id="globalFilter" onkeyup="PF('wvSolicitudes').filter()"  style="width:230px" placeholder="Buscar"/>
                             </p:outputPanel>
                         </f:facet>
 
@@ -74,25 +76,25 @@ and open the template in the editor.
                         <p:column width="50" headerText="ID">
                             <h:outputText value="#{solicitud.id}" />
                         </p:column>
-                        <p:column width="100" headerText="fecha">
+                        <p:column width="100" filterBy="#{solicitud.fecha}" headerText="fecha">
                             <h:outputText value="#{solicitud.fecha}" />
                         </p:column>
-                        <p:column width="140" headerText="nombres">
+                        <p:column width="140" filterBy="#{solicitud.nombres}" headerText="nombres">
                             <h:outputText value="#{solicitud.nombres}" />
                         </p:column>
-                        <p:column  headerText="apellidoPaterno">
+                        <p:column width="140" headerText="apellidoPaterno">
                             <h:outputText value="#{solicitud.apellidoPaterno}" />
                         </p:column>
-                        <p:column  headerText="apellidoMaterno">
+                        <p:column width="140" headerText="apellidoMaterno">
                             <h:outputText value="#{solicitud.apellidoMaterno}" />
                         </p:column>
-                        <p:column  headerText="ocupacion">
+                        <p:column width="140" headerText="ocupacion">
                             <h:outputText value="#{solicitud.ocupacion}" />
                         </p:column>
-                        <p:column  headerText="entidadFederativa">
+                        <p:column width="140" headerText="entidadFederativa">
                             <h:outputText value="#{solicitud.entidadFederativa}" />
                         </p:column>
-                        <p:column  headerText="institucion">
+                        <p:column width="140" headerText="institucion">
                             <h:outputText value="#{solicitud.institucion}" />
                         </p:column>
                         <p:column width="140" headerText="telefonoFijo">
@@ -101,29 +103,27 @@ and open the template in the editor.
                         <p:column width="160" headerText="telefonoCelular">
                             <h:outputText value="#{solicitud.telefonoCelular}" />
                         </p:column>
-                        <p:column  headerText="correo">
+                        <p:column width="140" headerText="correo">
                             <h:outputText value="#{solicitud.correo}" />
                         </p:column>
-                        <p:column  headerText="tipoInformacion">
+                        <p:column width="140" headerText="tipoInformacion">
                             <h:outputText value="#{solicitud.tipoInformacion}" />
                         </p:column>
-                        <p:column  headerText="especifiqueInformacion">
+                        <p:column width="140" headerText="especifiqueInformacion">
                             <h:outputText value="#{solicitud.especifiqueInformacion}" />
                         </p:column>
-                        <p:column  headerText="viaSolicitud">
+                        <p:column width="140" headerText="viaSolicitud">
                             <h:outputText value="#{solicitud.viaSolicitud}" />
                         </p:column>
-                        <p:column  headerText="recibirInformacion">
+                        <p:column width="140" headerText="recibirInformacion">
                             <h:outputText value="#{solicitud.recibirInformacion}" />
                         </p:column>
-                        <p:column  headerText="fechaAtencion">
+                        <p:column width="140" headerText="fechaAtencion">
                             <h:outputText value="#{solicitud.fechaAtencion}" />
                         </p:column>
-                        <p:column  headerText="atendioSolicitud">
+                        <p:column width="140" headerText="atendioSolicitud">
                             <h:outputText value="#{solicitud.atendioSolicitud}" />
                         </p:column>
-
-
 
                         <f:facet name="footer">
                             Hay #{fn:length(solicitudView.rows)} registro(s)

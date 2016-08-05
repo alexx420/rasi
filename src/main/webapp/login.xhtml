@@ -36,6 +36,8 @@ and open the template in the editor.
             </style>
         </h:head>
         <h:body>
+            <!--custom stylesheet-->
+            <link href="./css/style.css" rel="stylesheet" type="text/css"/> 
             <!--ajax status-->
             <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
             <!--status dialog-->
@@ -44,22 +46,26 @@ and open the template in the editor.
             </p:dialog>
             <!--Cell Editing with Click and RightClick-->
             <h:form id="form" >
-                <p:growl id="growl" showDetail="true"  />
+                <!--mensajes-->
+                <p:growl id="growl" showDetail="false"  />
 
-                <p:panel id="pan" widgetVar="dlg" header="Iniciar sesión">  
+                <p:panel id="panel" widgetVar="dlg" header="Iniciar sesión">  
+                    <!--focus panel-->
+                    <p:focus context="panel"/>
 
-                    <h:panelGrid columns="2" cellpadding="5">
+                    <h:panelGrid columns="2">
+
                         <h:outputLabel for="username" value="Usuario" />
                         <p:inputText id="username" value="#{usuarioLoginView.username}" required="true" label="Usuario" />
 
                         <h:outputLabel for="password" value="Contraseña" />
                         <p:password id="password" value="#{usuarioLoginView.password}" required="true" label="Contraseña" />
 
-                        <f:facet name="footer">
-                            <p:commandButton value="Entrar" update="growl" styleClass="ui-priority-primary" actionListener="#{usuarioLoginView.login}"
-                                             oncomplete="handleLoginRequest(xhr, status, args)" />
-                        </f:facet>  
                     </h:panelGrid>
+                    <f:facet name="footer">
+                        <p:commandButton value="Entrar" update="growl" styleClass="ui-priority-primary" actionListener="#{usuarioLoginView.login}"
+                                         oncomplete="handleLoginRequest(xhr, status, args)" />
+                    </f:facet>  
                 </p:panel> 
             </h:form>
 
