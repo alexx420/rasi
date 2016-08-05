@@ -5,7 +5,7 @@
   <class catalog="rasi" name="com.siap.rasi.pojo.EntidadFederativa" optimistic-lock="version" schema="dbo" table="entidadFederativa">
     <id name="id" type="int">
       <column name="id"/>
-      <generator class="assigned"/>
+      <generator class="identity"/>
     </id>
     <property name="nombre" type="string">
       <column name="nombre" not-null="true"/>

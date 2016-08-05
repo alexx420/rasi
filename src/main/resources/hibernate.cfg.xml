@@ -12,5 +12,6 @@
         <mapping resource="com/siap/rasi/Direccion.hbm.xml"/>
         <mapping resource="com/siap/rasi/Ocupacion.hbm.xml"/>
         <mapping resource="com/siap/rasi/Usuario.hbm.xml"/>
+        <mapping resource="com/siap/rasi/ViaSolicitud.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>

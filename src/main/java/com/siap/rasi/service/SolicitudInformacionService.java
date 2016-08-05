@@ -10,6 +10,7 @@ import com.siap.rasi.pojo.EntidadFederativa;
 import com.siap.rasi.pojo.Ocupacion;
 import com.siap.rasi.pojo.SolicitudInformacion;
 import com.siap.rasi.pojo.TipoInformacion;
+import com.siap.rasi.pojo.ViaSolicitud;
 import com.siap.rasi.util.HibernateUtil;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +39,24 @@ public class SolicitudInformacionService {
             if (tx != null) {
                 tx.rollback();
             }
-            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return list;
+    }
+
+    public List<ViaSolicitud> getViasSolicitud() {
+        List<ViaSolicitud> list = new ArrayList<>();
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            list = session.createQuery("FROM ViaSolicitud").list();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
         } finally {
             session.close();
         }
@@ -57,7 +75,6 @@ public class SolicitudInformacionService {
             if (tx != null) {
                 tx.rollback();
             }
-            e.printStackTrace();
         } finally {
             session.close();
         }
@@ -76,7 +93,6 @@ public class SolicitudInformacionService {
             if (tx != null) {
                 tx.rollback();
             }
-            e.printStackTrace();
         } finally {
             session.close();
         }
@@ -95,7 +111,6 @@ public class SolicitudInformacionService {
             if (tx != null) {
                 tx.rollback();
             }
-            e.printStackTrace();
         } finally {
             session.close();
         }
@@ -114,7 +129,6 @@ public class SolicitudInformacionService {
             if (tx != null) {
                 tx.rollback();
             }
-            e.printStackTrace();
         } finally {
             session.close();
         }
@@ -134,7 +148,6 @@ public class SolicitudInformacionService {
             if (tx != null) {
                 tx.rollback();
             }
-            e.printStackTrace();
         } finally {
             session.close();
         }
@@ -153,7 +166,6 @@ public class SolicitudInformacionService {
             if (tx != null) {
                 tx.rollback();
             }
-            e.printStackTrace();
         } finally {
             session.close();
         }
@@ -172,7 +184,6 @@ public class SolicitudInformacionService {
             if (tx != null) {
                 tx.rollback();
             }
-            e.printStackTrace();
         } finally {
             session.close();
         }

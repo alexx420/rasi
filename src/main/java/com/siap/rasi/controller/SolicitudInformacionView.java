@@ -14,6 +14,7 @@ import com.siap.rasi.pojo.EntidadFederativa;
 import com.siap.rasi.pojo.Ocupacion;
 import com.siap.rasi.pojo.SolicitudInformacion;
 import com.siap.rasi.pojo.TipoInformacion;
+import com.siap.rasi.pojo.ViaSolicitud;
 import com.siap.rasi.service.SolicitudInformacionService;
 import java.io.Serializable;
 import java.util.Arrays;
@@ -49,8 +50,8 @@ public class SolicitudInformacionView implements Serializable {
         return rows;
     }
 
-    public List<String> getViasSolicitud() {
-        return Arrays.asList(new String[]{"Teléfono", "Correo", "Redes sociales", "Visita","Reunión", "Oficio", "Página web SIAP", "Otra"});
+    public List<ViaSolicitud> getViasSolicitud() {
+        return service.getViasSolicitud();
     }
 
     public List<Direccion> getDirecciones() {

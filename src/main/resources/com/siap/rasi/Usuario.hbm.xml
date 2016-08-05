@@ -2,16 +2,16 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 4/08/2016 04:32:59 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-  <class catalog="rasi" name="com.siap.rasi.pojo.Usuario" optimistic-lock="version" schema="dbo" table="usuario">
-    <id name="username" type="string">
-      <column length="30" name="username"/>
-      <generator class="assigned"/>
-    </id>
-    <property name="password" type="string">
-      <column length="45" name="password" not-null="true"/>
-    </property>
-    <property name="activo" type="java.lang.Boolean">
-      <column name="activo"/>
-    </property>
-  </class>
+    <class catalog="rasi" name="com.siap.rasi.pojo.Usuario" optimistic-lock="version" schema="dbo" table="usuario">
+        <id name="username" type="string">
+            <column length="30" name="username"/>
+            <generator class="assigned"/>
+        </id>
+        <property name="password" type="string">
+            <column length="45" name="password" not-null="true"/>
+        </property>
+        <property name="activo" type="java.lang.Boolean">
+            <column name="activo"/>
+        </property>
+    </class>
 </hibernate-mapping>
