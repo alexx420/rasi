@@ -50,7 +50,7 @@ public class SolicitudInformacionView implements Serializable {
     }
 
     public List<String> getViasSolicitud() {
-        return Arrays.asList(new String[]{"Teléfono", "Correo", "Redes sociales", "Visita", "Otra"});
+        return Arrays.asList(new String[]{"Teléfono", "Correo", "Redes sociales", "Visita","Reunión", "Oficio", "Página web SIAP", "Otra"});
     }
 
     public List<Direccion> getDirecciones() {

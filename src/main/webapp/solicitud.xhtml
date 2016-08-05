@@ -87,7 +87,7 @@ and open the template in the editor.
                                     </h:outputText>
                                 </f:facet>
                                 <f:facet name="input">
-                                    <p:calendar value="#{solicitud.fecha}" pages="2" locale="es"
+                                    <p:calendar value="#{solicitud.fecha}" locale="es"
                                                 required="true" label="Fecha"
                                                 readonlyInput="true" pattern="EEE, dd-MMM-yyyy"/>
                                 </f:facet>
@@ -96,19 +96,19 @@ and open the template in the editor.
                         <p:column width="140" filterBy="#{solicitud.nombres}" headerText="Nombres">
                             <p:cellEditor>
                                 <f:facet name="output"><h:outputText value="#{solicitud.nombres}" /></f:facet>
-                                <f:facet name="input"><p:inputText value="#{solicitud.nombres}" style="width: 100%;" label="Nombres" maxlength="255"/></f:facet>
+                                <f:facet name="input"><p:inputText value="#{solicitud.nombres}" style="width: 100%;" label="Nombres" /></f:facet>
                             </p:cellEditor>
                         </p:column>
                         <p:column width="140" filterBy="#{solicitud.apellidoPaterno}" headerText="Apellido paterno">
                             <p:cellEditor>
                                 <f:facet name="output"><h:outputText value="#{solicitud.apellidoPaterno}" /></f:facet>
-                                <f:facet name="input"><p:inputText value="#{solicitud.apellidoPaterno}"  label="Apellido paterno" maxlength="255"/></f:facet>
+                                <f:facet name="input"><p:inputText value="#{solicitud.apellidoPaterno}" style="width: 100%;" label="Apellido paterno" /></f:facet>
                             </p:cellEditor>
                         </p:column>
                         <p:column width="140" filterBy="#{solicitud.apellidoMaterno}" headerText="Apellido materno">
                             <p:cellEditor>
                                 <f:facet name="output"><h:outputText value="#{solicitud.apellidoMaterno}" /></f:facet>
-                                <f:facet name="input"><p:inputText value="#{solicitud.apellidoMaterno}"  label="Apellido materno" maxlength="255"/></f:facet>
+                                <f:facet name="input"><p:inputText value="#{solicitud.apellidoMaterno}" style="width: 100%;" label="Apellido materno" /></f:facet>
                             </p:cellEditor>
                         </p:column>
                         <!--ocupacion select list-->
@@ -137,21 +137,21 @@ and open the template in the editor.
                         <p:column width="140" filterBy="#{solicitud.institucion}" headerText="Institución">
                             <p:cellEditor>
                                 <f:facet name="output"><h:outputText value="#{solicitud.institucion}" /></f:facet>
-                                <f:facet name="input"><p:inputText value="#{solicitud.institucion}"  label="Institución" maxlength="255"/></f:facet>
+                                <f:facet name="input"><p:inputText value="#{solicitud.institucion}" style="width: 100%;" label="Institución" /></f:facet>
                             </p:cellEditor>
                         </p:column>
                         <!--telefono mask input-->
                         <p:column width="140" filterBy="#{solicitud.telefonoFijo}" headerText="Teléfono fijo">
                             <p:cellEditor>
                                 <f:facet name="output"><h:outputText value="#{solicitud.telefonoFijo}" /></f:facet>
-                                <f:facet name="input"><p:inputMask value="#{solicitud.telefonoFijo}" mask="(999) 99 99 99 99? x99999" label="Teléfono fijo"/></f:facet>
+                                <f:facet name="input"><p:inputMask value="#{solicitud.telefonoFijo}" style="width: 100%;" mask="99 99 99 99 99? x99999" label="Teléfono fijo"/></f:facet>
                             </p:cellEditor>
                         </p:column>
                         <!--celular mask input-->
                         <p:column width="160" filterBy="#{solicitud.telefonoCelular}" headerText="Teléfono celular">
                             <p:cellEditor>
                                 <f:facet name="output"><h:outputText value="#{solicitud.telefonoCelular}" /></f:facet>
-                                <f:facet name="input"><p:inputMask value="#{solicitud.telefonoCelular}" mask="(999) 99 99 99 99 99" label="Teléfono celular"/></f:facet>
+                                <f:facet name="input"><p:inputMask value="#{solicitud.telefonoCelular}" style="width: 100%;" mask="(999) 99 99 99 99 99" label="Teléfono celular"/></f:facet>
                             </p:cellEditor>
                         </p:column>
                         <!--correo validacion-->
@@ -159,10 +159,9 @@ and open the template in the editor.
                             <p:cellEditor>
                                 <f:facet name="output"><h:outputText value="#{solicitud.correo}" /></f:facet>
                                 <f:facet name="input">
-                                    <p:inputText id="email1" value="#{solicitud.correo}"  label="Correo" maxlength="255">
+                                    <p:inputText id="email1" value="#{solicitud.correo}" style="width: 100%;" label="Correo" >
                                         <f:validator validatorId="custom.emailValidator" />
                                     </p:inputText>
-                                    <!--<p:message for="email1" display="tooltip" />-->
                                 </f:facet>
                             </p:cellEditor>
                         </p:column>
@@ -181,7 +180,7 @@ and open the template in the editor.
                         <p:column width="250" filterBy="#{solicitud.especifiqueInformacion}" headerText="Especifique información">
                             <p:cellEditor>
                                 <f:facet name="output"><h:outputText value="#{solicitud.especifiqueInformacion}" /></f:facet>
-                                <f:facet name="input"><p:inputText value="#{solicitud.especifiqueInformacion}" label="Especifique información" maxlength="255"/></f:facet>
+                                <f:facet name="input"><p:inputText value="#{solicitud.especifiqueInformacion}" style="width: 100%;" label="Especifique información"/></f:facet>
                             </p:cellEditor>
                         </p:column>
                         <!--via solicitud select list-->
@@ -216,7 +215,7 @@ and open the template in the editor.
                                     </h:outputText>
                                 </f:facet>
                                 <f:facet name="input">
-                                    <p:calendar value="#{solicitud.fechaAtencion}" pages="2" locale="es"
+                                    <p:calendar value="#{solicitud.fechaAtencion}" locale="es"
                                                 required="true" label="Fecha atención"
                                                 readonlyInput="true" pattern="EEE, dd-MMM-yyyy"/>
                                 </f:facet>
