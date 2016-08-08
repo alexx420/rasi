@@ -13,6 +13,8 @@ import com.siap.rasi.pojo.TipoInformacion;
 import com.siap.rasi.pojo.ViaSolicitud;
 import com.siap.rasi.util.HibernateUtil;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;

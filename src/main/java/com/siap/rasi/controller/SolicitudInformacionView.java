@@ -17,8 +17,9 @@ import com.siap.rasi.pojo.TipoInformacion;
 import com.siap.rasi.pojo.ViaSolicitud;
 import com.siap.rasi.service.SolicitudInformacionService;
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -26,15 +27,17 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.event.CellEditEvent;
+import org.primefaces.event.RowEditEvent;
 
 @ManagedBean(name = "solicitudView")
 @ViewScoped
 public class SolicitudInformacionView implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private List<SolicitudInformacion> rows;
     private List<SolicitudInformacion> selectedRows;
     private List<SolicitudInformacion> filteredRows;
-    private boolean buttonDisabled;
+    private SolicitudInformacion selectedRow;
 
     @ManagedProperty("#{solicitudService}")
     private SolicitudInformacionService service;
@@ -42,8 +45,14 @@ public class SolicitudInformacionView implements Serializable {
     @PostConstruct
     public void init() {
         rows = service.listRows();
-        buttonDisabled = !rows.isEmpty();
-        buttonDisabled = true;
+    }
+
+    public SolicitudInformacion getSelectedRow() {
+        return selectedRow;
+    }
+
+    public void setSelectedRow(SolicitudInformacion selectedRow) {
+        this.selectedRow = selectedRow;
     }
 
     public List<SolicitudInformacion> getRows() {
@@ -90,14 +99,6 @@ public class SolicitudInformacionView implements Serializable {
         this.filteredRows = filteredRows;
     }
 
-    public boolean isButtonDisabled() {
-        return buttonDisabled;
-    }
-
-    public void setButtonDisabled(boolean buttonDisabled) {
-        this.buttonDisabled = buttonDisabled;
-    }
-
     public void setService(SolicitudInformacionService service) {
         this.service = service;
     }
@@ -112,14 +113,28 @@ public class SolicitudInformacionView implements Serializable {
                 service.updateRow(currentCar);
                 msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Edición correcta", "Anterior: " + oldValue + ", Nuevo:" + newValue);
             } catch (Exception e) {
-                msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falló edición", e.getMessage());
+                msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falló la edición", e.getMessage());
             }
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }
 
-    public void disableIfEmpty() {
-        this.buttonDisabled = selectedRows.isEmpty();
+    public void onRowEdit(RowEditEvent event) {
+        FacesMessage msg;
+        SolicitudInformacion si = (SolicitudInformacion) event.getObject();
+        try {
+            service.updateRow(si);
+            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Edición correcta", "ID: " + String.valueOf(si.getId()));
+        } catch (Exception e) {
+            msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falló la edición", e.getMessage());
+        }
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    public void onRowCancel(RowEditEvent event) {
+        SolicitudInformacion si = (SolicitudInformacion) event.getObject();
+        FacesMessage msg = new FacesMessage("Edición cancelada", String.valueOf(si.getId()));
+        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
     public void addRow() {
@@ -129,18 +144,33 @@ public class SolicitudInformacionView implements Serializable {
     }
 
     public void deleteSelected() {
+        FacesMessage msg;
         int size = selectedRows.size();
-        selectedRows.stream().map((selectedCar) -> selectedCar.getId()).forEach((id) -> {
-            try {
-                service.deleteRow(id);
-            } catch (Exception e) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
-            }
-        });
-        rows.removeAll(selectedRows);
-        selectedRows.clear();
-        disableIfEmpty();
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Registros eliminados", String.valueOf(size)));
+        if (selectedRows.isEmpty()) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("No hay registros seleccionados"));
+        } else {
+            selectedRows.stream().map((selectedCar) -> selectedCar.getId()).forEach((id) -> {
+                try {
+                    service.deleteRow(id);
+                } catch (Exception e) {
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
+                }
+            });
+            rows.removeAll(selectedRows);
+            selectedRows.clear();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Registros eliminados", String.valueOf(size)));
+        }
     }
 
+    public void deleteRow() {
+        long id = selectedRow.getId();
+        try {
+            service.deleteRow(selectedRow.getId());
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
+        }
+        rows.remove(selectedRow);
+        selectedRow = null;
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro eliminado", "ID: " + String.valueOf(id)));
+    }
 }

@@ -53,11 +53,11 @@ and open the template in the editor.
                 <p:panel id="panel" header="Solicitudes de información">  
                     <!--datatable-->
                     <p:dataTable id="dtSolicitud" var="solicitud" value="#{solicitudView.rows}" 
-                                 editable="true" editMode="cell" widgetVar="wvSolicitudes" 
+                                 editable="true"  widgetVar="wvSolicitudes" 
                                  scrollRows="100" scrollable="true" liveScroll="true" 
-                                 scrollHeight="380" selection="#{solicitudView.selectedRows}" 
-                                 rowKey="#{solicitud.id}" emptyMessage="No se encontraron resultados"
-                                 filteredValue="#{solicitudView.filteredRows}">
+                                 scrollHeight="380" selection="#{solicitudView.selectedRows}" selectionMode="multiple"
+                                 rowKey="#{solicitud.id}" emptyMessage="No se encontraron resultados" 
+                                 filteredValue="#{solicitudView.filteredRows}" >
 
                         <f:facet name="header" >
                             <!--buscar en datatable-->
@@ -66,14 +66,13 @@ and open the template in the editor.
                             </p:outputPanel>
                         </f:facet>
 
-                        <p:ajax event="rowSelect" listener="#{solicitudView.disableIfEmpty}" update=":form:cbEliminar" />
-                        <p:ajax event="rowUnselect" listener="#{solicitudView.disableIfEmpty}" update=":form:cbEliminar" />
-                        <p:ajax event="cellEdit" listener="#{solicitudView.onCellEdit}" update=":form:growl" />
-                        <p:ajax event="rowSelectCheckbox" listener="#{solicitudView.disableIfEmpty}" update=":form:cbEliminar" />
-                        <p:ajax event="rowUnselectCheckbox" listener="#{solicitudView.disableIfEmpty}" update=":form:cbEliminar" />
-                        <p:ajax event="toggleSelect" listener="#{solicitudView.disableIfEmpty}" update=":form:cbEliminar" />
+                        <p:ajax event="rowEdit" listener="#{solicitudView.onRowEdit}" update=":form:growl" />
+                        <p:ajax event="rowEditCancel" listener="#{solicitudView.onRowCancel}" update=":form:growl" />
 
-                        <p:column selectionMode="multiple" style="width:16px;text-align:center" />
+
+                        <p:column style="width:32px">
+                            <p:rowEditor />
+                        </p:column>
 
                         <p:column width="50" headerText="ID">
                             <h:outputText value="#{solicitud.id}" />
@@ -93,22 +92,25 @@ and open the template in the editor.
                                 </f:facet>
                             </p:cellEditor>
                         </p:column>
+                        <!--nombre text-->
                         <p:column width="140" filterBy="#{solicitud.nombres}" sortBy="#{solicitud.nombres}" headerText="Nombres">
                             <p:cellEditor>
                                 <f:facet name="output"><h:outputText value="#{solicitud.nombres}" /></f:facet>
-                                <f:facet name="input"><p:inputText value="#{solicitud.nombres}" style="width: 100%;" label="Nombres" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{solicitud.nombres}" label="Nombres" /></f:facet>
                             </p:cellEditor>
                         </p:column>
+                        <!--apellido paterno-->
                         <p:column width="140" filterBy="#{solicitud.apellidoPaterno}" sortBy="#{solicitud.apellidoPaterno}" headerText="Apellido paterno">
                             <p:cellEditor>
                                 <f:facet name="output"><h:outputText value="#{solicitud.apellidoPaterno}" /></f:facet>
-                                <f:facet name="input"><p:inputText value="#{solicitud.apellidoPaterno}" style="width: 100%;" label="Apellido paterno" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{solicitud.apellidoPaterno}"  label="paterno" /></f:facet>
                             </p:cellEditor>
                         </p:column>
+                        <!--apellido materno-->
                         <p:column width="140" filterBy="#{solicitud.apellidoMaterno}" sortBy="#{solicitud.apellidoMaterno}" headerText="Apellido materno">
                             <p:cellEditor>
                                 <f:facet name="output"><h:outputText value="#{solicitud.apellidoMaterno}" /></f:facet>
-                                <f:facet name="input"><p:inputText value="#{solicitud.apellidoMaterno}" style="width: 100%;" label="Apellido materno" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{solicitud.apellidoMaterno}"  label="materno" /></f:facet>
                             </p:cellEditor>
                         </p:column>
                         <!--ocupacion select list-->
@@ -116,7 +118,7 @@ and open the template in the editor.
                             <p:cellEditor>
                                 <f:facet name="output"><h:outputText value="#{solicitud.ocupacion}" /></f:facet>
                                 <f:facet name="input">
-                                    <h:selectOneMenu value="#{solicitud.ocupacion}" style="width:100%">
+                                    <h:selectOneMenu value="#{solicitud.ocupacion}" >
                                         <f:selectItem itemLabel="Selecciona uno" itemValue="" />
                                         <f:selectItems value="#{solicitudView.ocupaciones}" var="item" itemLabel="#{item.nombre}" itemValue="#{item.nombre}" />
                                     </h:selectOneMenu>
@@ -128,7 +130,7 @@ and open the template in the editor.
                             <p:cellEditor>
                                 <f:facet name="output"><h:outputText value="#{solicitud.entidadFederativa}" /></f:facet>
                                 <f:facet name="input">
-                                    <h:selectOneMenu value="#{solicitud.entidadFederativa}" style="width:100%">
+                                    <h:selectOneMenu value="#{solicitud.entidadFederativa}" >
                                         <f:selectItem itemLabel="Selecciona uno" itemValue="" />
                                         <f:selectItems value="#{solicitudView.entidades}" var="item" itemLabel="#{item.nombre}" itemValue="#{item.nombre}" />
                                     </h:selectOneMenu>
@@ -139,21 +141,21 @@ and open the template in the editor.
                         <p:column width="140" filterBy="#{solicitud.institucion}" sortBy="#{solicitud.institucion}" headerText="Institución">
                             <p:cellEditor>
                                 <f:facet name="output"><h:outputText value="#{solicitud.institucion}" /></f:facet>
-                                <f:facet name="input"><p:inputText value="#{solicitud.institucion}" style="width: 100%;" label="Institución" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{solicitud.institucion}"  label="Institución" /></f:facet>
                             </p:cellEditor>
                         </p:column>
                         <!--telefono mask input-->
                         <p:column width="140" filterBy="#{solicitud.telefonoFijo}" sortBy="#{solicitud.telefonoFijo}" headerText="Teléfono fijo">
                             <p:cellEditor>
                                 <f:facet name="output"><h:outputText value="#{solicitud.telefonoFijo}" /></f:facet>
-                                <f:facet name="input"><p:inputMask value="#{solicitud.telefonoFijo}" style="width: 100%;" mask="99 99 99 99 99? x99999" label="Teléfono fijo"/></f:facet>
+                                <f:facet name="input"><p:inputMask value="#{solicitud.telefonoFijo}"  mask="99 99 99 99 99? x99999" label="Teléfono fijo"/></f:facet>
                             </p:cellEditor>
                         </p:column>
                         <!--celular mask input-->
                         <p:column width="160" filterBy="#{solicitud.telefonoCelular}" sortBy="#{solicitud.telefonoCelular}" headerText="Teléfono celular">
                             <p:cellEditor>
                                 <f:facet name="output"><h:outputText value="#{solicitud.telefonoCelular}" /></f:facet>
-                                <f:facet name="input"><p:inputMask value="#{solicitud.telefonoCelular}" style="width: 100%;" mask="(999) 99 99 99 99 99" label="Teléfono celular"/></f:facet>
+                                <f:facet name="input"><p:inputMask value="#{solicitud.telefonoCelular}"  mask="(999) 99 99 99 99 99" label="Teléfono celular"/></f:facet>
                             </p:cellEditor>
                         </p:column>
                         <!--correo validacion-->
@@ -161,7 +163,7 @@ and open the template in the editor.
                             <p:cellEditor>
                                 <f:facet name="output"><h:outputText value="#{solicitud.correo}" /></f:facet>
                                 <f:facet name="input">
-                                    <p:inputText id="email1" value="#{solicitud.correo}" style="width: 100%;" label="Correo" >
+                                    <p:inputText id="email1" value="#{solicitud.correo}"  label="Correo" >
                                         <f:validator validatorId="custom.emailValidator" />
                                     </p:inputText>
                                 </f:facet>
@@ -172,7 +174,7 @@ and open the template in the editor.
                             <p:cellEditor>
                                 <f:facet name="output"><h:outputText value="#{solicitud.tipoInformacion}" /></f:facet>
                                 <f:facet name="input">
-                                    <h:selectOneMenu value="#{solicitud.tipoInformacion}" style="width:100%">
+                                    <h:selectOneMenu value="#{solicitud.tipoInformacion}" >
                                         <f:selectItem itemLabel="Selecciona uno" itemValue="" />
                                         <f:selectItems value="#{solicitudView.tiposInformacion}" var="item" itemLabel="#{item.nombre}" itemValue="#{item.nombre}" />
                                     </h:selectOneMenu>
@@ -183,7 +185,7 @@ and open the template in the editor.
                         <p:column width="250" filterBy="#{solicitud.especifiqueInformacion}" sortBy="#{solicitud.especifiqueInformacion}" headerText="Especifique información">
                             <p:cellEditor>
                                 <f:facet name="output"><h:outputText value="#{solicitud.especifiqueInformacion}" /></f:facet>
-                                <f:facet name="input"><p:inputText value="#{solicitud.especifiqueInformacion}" style="width:100%;" label="Especifique información"/></f:facet>
+                                <f:facet name="input"><p:inputText value="#{solicitud.especifiqueInformacion}"  label="Especifique información"/></f:facet>
                             </p:cellEditor>
                         </p:column>
                         <!--via solicitud select list-->
@@ -191,7 +193,7 @@ and open the template in the editor.
                             <p:cellEditor>
                                 <f:facet name="output"><h:outputText value="#{solicitud.viaSolicitud}" /></f:facet>
                                 <f:facet name="input">
-                                    <h:selectOneMenu value="#{solicitud.viaSolicitud}" style="width:100%">
+                                    <h:selectOneMenu value="#{solicitud.viaSolicitud}" >
                                         <f:selectItem itemLabel="Selecciona uno" itemValue="" />
                                         <f:selectItems value="#{solicitudView.viasSolicitud}" var="item" itemLabel="#{item.nombre}" itemValue="#{item.nombre}" />
                                     </h:selectOneMenu>
@@ -203,7 +205,7 @@ and open the template in the editor.
                             <p:cellEditor>
                                 <f:facet name="output"><h:outputText value="#{solicitud.recibirInformacion?'Si':'No'}" /></f:facet>
                                 <f:facet name="input">
-                                    <h:selectOneMenu value="#{solicitud.recibirInformacion}" style="width:100%">
+                                    <h:selectOneMenu value="#{solicitud.recibirInformacion}" >
                                         <f:selectItem itemLabel="Si" itemValue="true" />
                                         <f:selectItem itemLabel="No" itemValue="false" />
                                     </h:selectOneMenu>
@@ -230,7 +232,7 @@ and open the template in the editor.
                             <p:cellEditor>
                                 <f:facet name="output"><h:outputText value="#{solicitud.atendioSolicitud}" /></f:facet>
                                 <f:facet name="input">
-                                    <h:selectOneMenu value="#{solicitud.atendioSolicitud}" style="width:100%">
+                                    <h:selectOneMenu value="#{solicitud.atendioSolicitud}" >
                                         <f:selectItem itemLabel="Selecciona uno" itemValue="" />
                                         <f:selectItems value="#{solicitudView.direcciones}" var="item" itemLabel="#{item.nombre}" itemValue="#{item.nombre}" />
                                     </h:selectOneMenu>
@@ -248,8 +250,10 @@ and open the template in the editor.
                                       actionListener="#{solicitudView.addRow}" update="growl dtSolicitud form"></p:commandButton>
                     <!--eliminar-->
                     <p:commandButton id="cbEliminar" value="Eliminar" icon="fa fa-remove" 
-                                     styleClass="ui-state-error" disabled="#{solicitudView.buttonDisabled}" 
-                                     actionListener="#{solicitudView.deleteSelected}" update="growl dtSolicitud form"></p:commandButton>
+                                     styleClass="ui-state-error" actionListener="#{solicitudView.deleteSelected}" update="growl dtSolicitud form">
+                        <p:confirm header="Eliminar registros" message="¿Estás seguro?" icon="ui-icon-alert" />
+                    </p:commandButton>
+
                 </p:panel> 
             </h:form>
 

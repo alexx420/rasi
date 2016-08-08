@@ -6,6 +6,7 @@ package com.siap.rasi.pojo;
  */
 public class Usuario implements java.io.Serializable {
 
+    private static final long serialVersionUID = 1L;
     private String username;
     private String password;
     private Boolean activo;

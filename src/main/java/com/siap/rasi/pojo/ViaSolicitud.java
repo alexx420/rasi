@@ -6,6 +6,7 @@ package com.siap.rasi.pojo;
  */
 public class ViaSolicitud implements java.io.Serializable {
 
+    private static final long serialVersionUID = 1L;
     private int id;
     private String nombre;
     private String descripcion;
