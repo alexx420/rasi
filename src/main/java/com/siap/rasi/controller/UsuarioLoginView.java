@@ -16,6 +16,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.servlet.http.HttpSession;
 import org.primefaces.context.RequestContext;
 
 /**
@@ -66,6 +67,8 @@ public class UsuarioLoginView implements Serializable {
                     && service.login(username, password)) {
                 logeado = true;
                 msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenido", username);
+                HttpSession session = SessionUtils.getSession();
+                session.setAttribute("username", username);
             } else {
                 logeado = false;
                 msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error de inicio de sesión",
@@ -80,14 +83,17 @@ public class UsuarioLoginView implements Serializable {
         context.addCallbackParam("loggedIn", logeado);
         if (logeado) {
             context.addCallbackParam("view", "solicitud.fac");
+        } else {
+            context.addCallbackParam("view", "login.fac");
         }
     }
 
     public void logout() {
         RequestContext context = RequestContext.getCurrentInstance();
-        service.logout();
         logeado = false;
         context.addCallbackParam("view", "index.fac");
+        HttpSession session = SessionUtils.getSession();
+        session.invalidate();
     }
 
 }

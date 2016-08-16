@@ -15,8 +15,6 @@ import java.util.Iterator;
 import java.util.List;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -45,7 +43,6 @@ public class UsuarioService {
             if (tx != null) {
                 tx.rollback();
             }
-            e.printStackTrace();
         } finally {
             session.close();
         }
@@ -64,7 +61,6 @@ public class UsuarioService {
             if (tx != null) {
                 tx.rollback();
             }
-            e.printStackTrace();
         } finally {
             session.close();
         }
@@ -82,7 +78,6 @@ public class UsuarioService {
             if (tx != null) {
                 tx.rollback();
             }
-            e.printStackTrace();
         } finally {
             session.close();
         }
@@ -100,7 +95,6 @@ public class UsuarioService {
             if (tx != null) {
                 tx.rollback();
             }
-            e.printStackTrace();
         } finally {
             session.close();
         }
@@ -124,7 +118,6 @@ public class UsuarioService {
             if (tx != null) {
                 tx.rollback();
             }
-            e.printStackTrace();
         } finally {
             session.close();
         }
@@ -137,17 +130,7 @@ public class UsuarioService {
             return false;
         }
         boolean result = user.getPassword().equals(sha1(password));
-        HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
-                .getExternalContext().getSession(true);
-        session.setAttribute("username", username);
         return result;
-    }
-
-    public static String getSessionUser() {
-        HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
-                .getExternalContext().getSession(false);
-        String attribute = (String) session.getAttribute("username");
-        return attribute;
     }
 
     public static String sha1(String s) throws NoSuchAlgorithmException, UnsupportedEncodingException {
@@ -155,12 +138,6 @@ public class UsuarioService {
         digest.update(s.getBytes("utf8"));
         byte[] digestBytes = digest.digest();
         return javax.xml.bind.DatatypeConverter.printHexBinary(digestBytes);
-    }
-
-    public void logout() {
-        HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
-                .getExternalContext().getSession(false);
-        session.invalidate();
     }
 
 }
