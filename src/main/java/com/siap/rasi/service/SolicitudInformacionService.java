@@ -5,6 +5,7 @@
  */
 package com.siap.rasi.service;
 
+import com.siap.rasi.controller.SessionUtils;
 import com.siap.rasi.pojo.Direccion;
 import com.siap.rasi.pojo.EntidadFederativa;
 import com.siap.rasi.pojo.Ocupacion;
@@ -51,7 +52,7 @@ public class SolicitudInformacionService {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            list = session.createQuery("FROM ViaSolicitud").list();
+            list = session.createQuery("FROM ViaSolicitud ORDER BY nombre").list();
             tx.commit();
         } catch (HibernateException e) {
             if (tx != null) {
@@ -69,7 +70,7 @@ public class SolicitudInformacionService {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            list = session.createQuery("FROM TipoInformacion").list();
+            list = session.createQuery("FROM TipoInformacion ORDER BY nombre").list();
             tx.commit();
         } catch (HibernateException e) {
             if (tx != null) {
@@ -87,7 +88,7 @@ public class SolicitudInformacionService {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            list = session.createQuery("FROM Direccion").list();
+            list = session.createQuery("FROM Direccion ORDER BY nombre").list();
             tx.commit();
         } catch (HibernateException e) {
             if (tx != null) {
@@ -105,7 +106,7 @@ public class SolicitudInformacionService {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            list = session.createQuery("FROM EntidadFederativa").list();
+            list = session.createQuery("FROM EntidadFederativa ORDER BY nombre").list();
             tx.commit();
         } catch (HibernateException e) {
             if (tx != null) {
@@ -123,7 +124,7 @@ public class SolicitudInformacionService {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            list = session.createQuery("FROM Ocupacion").list();
+            list = session.createQuery("FROM Ocupacion ORDER BY nombre").list();
             tx.commit();
         } catch (HibernateException e) {
             if (tx != null) {
@@ -136,13 +137,14 @@ public class SolicitudInformacionService {
     }
 
     public SolicitudInformacion addRow() {
-        SolicitudInformacion car = new SolicitudInformacion();
+        SolicitudInformacion si = new SolicitudInformacion();
+        si.setUserName(SessionUtils.getUserName());
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = null;
         Long carID = null;
         try {
             tx = session.beginTransaction();
-            carID = (Long) session.save(car);
+            carID = (Long) session.save(si);
             tx.commit();
         } catch (HibernateException e) {
             if (tx != null) {
@@ -151,16 +153,16 @@ public class SolicitudInformacionService {
         } finally {
             session.close();
         }
-        car.setId(carID);
-        return car;
+        si.setId(carID);
+        return si;
     }
 
-    public void updateRow(SolicitudInformacion car) throws Exception {
+    public void updateRow(SolicitudInformacion si) throws Exception {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            session.update(car);
+            session.update(si);
             tx.commit();
         } catch (HibernateException e) {
             if (tx != null) {

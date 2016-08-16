@@ -82,18 +82,17 @@ public class UsuarioLoginView implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, msg);
         context.addCallbackParam("loggedIn", logeado);
         if (logeado) {
-            context.addCallbackParam("view", "solicitud.fac");
+            context.addCallbackParam("view", "solicitud.xhtml");
         } else {
-            context.addCallbackParam("view", "login.fac");
+            context.addCallbackParam("view", "login.xhtml");
         }
     }
 
     public void logout() {
         RequestContext context = RequestContext.getCurrentInstance();
+        service.logout();
         logeado = false;
-        context.addCallbackParam("view", "index.fac");
-        HttpSession session = SessionUtils.getSession();
-        session.invalidate();
+        context.addCallbackParam("view", "index.xhtml");
     }
 
 }

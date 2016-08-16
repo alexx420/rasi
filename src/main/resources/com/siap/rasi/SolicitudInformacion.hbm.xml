@@ -55,5 +55,8 @@
         <property name="atendioSolicitud" type="string">
             <column name="atendioSolicitud"/>
         </property>
+        <property name="userName" type="string">
+            <column name="userName"/>
+        </property>
     </class>
 </hibernate-mapping>

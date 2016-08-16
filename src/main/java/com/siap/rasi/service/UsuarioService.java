@@ -15,6 +15,8 @@ import java.util.Iterator;
 import java.util.List;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -140,4 +142,9 @@ public class UsuarioService {
         return javax.xml.bind.DatatypeConverter.printHexBinary(digestBytes);
     }
 
+    public void logout() {
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
+                .getExternalContext().getSession(false);
+        session.invalidate();
+    }
 }

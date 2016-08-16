@@ -27,11 +27,12 @@ public class SolicitudInformacion implements Serializable {
     private boolean recibirInformacion;
     private Date fechaAtencion;
     private String atendioSolicitud;
+    private String userName;
 
     public SolicitudInformacion() {
     }
 
-    public SolicitudInformacion(long id, Date fecha, String nombres, String apellidoPaterno, String apellidoMaterno, String ocupacion, String entidadFederativa, String institucion, String telefonoFijo, String telefonoCelular, String correo, String tipoInformacion, String especifiqueInformacion, String viaSolicitud, boolean recibirInformacion, Date fechaAtencion, String atendioSolicitud) {
+    public SolicitudInformacion(long id, Date fecha, String nombres, String apellidoPaterno, String apellidoMaterno, String ocupacion, String entidadFederativa, String institucion, String telefonoFijo, String telefonoCelular, String correo, String tipoInformacion, String especifiqueInformacion, String viaSolicitud, boolean recibirInformacion, Date fechaAtencion, String atendioSolicitud, String userName) {
         this.id = id;
         this.fecha = fecha;
         this.nombres = nombres;
@@ -49,6 +50,7 @@ public class SolicitudInformacion implements Serializable {
         this.recibirInformacion = recibirInformacion;
         this.fechaAtencion = fechaAtencion;
         this.atendioSolicitud = atendioSolicitud;
+        this.userName = userName;
     }
 
     public long getId() {
@@ -185,6 +187,14 @@ public class SolicitudInformacion implements Serializable {
 
     public void setAtendioSolicitud(String atendioSolicitud) {
         this.atendioSolicitud = atendioSolicitud;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     @Override

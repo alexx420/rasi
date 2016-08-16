@@ -21,7 +21,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author rafael.esquivel
  */
-@WebFilter(filterName = "AuthFilter", urlPatterns = {"*.fac"})
+@WebFilter(filterName = "AuthFilter", urlPatterns = {"*.xhtml"})
 public class AuthorizationFilter implements Filter {
 
     @Override
@@ -37,13 +37,13 @@ public class AuthorizationFilter implements Filter {
             HttpSession ses = reqt.getSession(false);
 
             String reqURI = reqt.getRequestURI();
-            if (reqURI.contains("/login.fac")
+            if (reqURI.contains("/login.xhtml")
                     || (ses != null && ses.getAttribute("username") != null)
                     || reqURI.contains("/public/")
                     || reqURI.contains("javax.faces.resource")) {
                 chain.doFilter(request, response);
             } else {
-                resp.sendRedirect(reqt.getContextPath() + "/login.fac");
+                resp.sendRedirect(reqt.getContextPath() + "/login.xhtml");
             }
         } catch (IOException | ServletException e) {
             System.out.println(e.getMessage());

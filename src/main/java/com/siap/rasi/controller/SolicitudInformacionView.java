@@ -23,6 +23,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.component.behavior.Behavior;
 import javax.faces.context.FacesContext;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
@@ -118,21 +119,26 @@ public class SolicitudInformacionView implements Serializable {
     }
 
     public void onRowEdit(RowEditEvent event) {
-        FacesMessage msg;
+        Behavior behavior = event.getBehavior();
+        System.out.println("//" + behavior);
         SolicitudInformacion si = (SolicitudInformacion) event.getObject();
         try {
-            service.updateRow(si);
-            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Edición correcta", "ID: " + String.valueOf(si.getId()));
+            String sessionUserName = SessionUtils.getUserName();
+            String userNameToDelete = si.getUserName();
+            if (userNameToDelete.equals(sessionUserName)) {
+                service.updateRow(si);
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Edición correcta", "ID: " + String.valueOf(si.getId())));
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Solo el usuario que capturó el registro puede editarlo"));
+            }
         } catch (Exception e) {
-            msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falló la edición", e.getMessage());
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
         }
-        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
     public void onRowCancel(RowEditEvent event) {
         SolicitudInformacion si = (SolicitudInformacion) event.getObject();
-        FacesMessage msg = new FacesMessage("Edición cancelada", String.valueOf(si.getId()));
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Edición cancelada", String.valueOf(si.getId())));
     }
 
     public void addRow() {
@@ -142,25 +148,38 @@ public class SolicitudInformacionView implements Serializable {
     }
 
     public void deleteSelected() {
-        FacesMessage msg;
-        int size = selectedRows.size();
+        int r = 0;
         if (selectedRows.isEmpty()) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("No hay registros seleccionados"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "No hay registros seleccionados"));
         } else {
-            selectedRows.stream().map((selectedCar) -> selectedCar.getId()).forEach((id) -> {
+            String sessionUserName = SessionUtils.getUserName();
+            for (SolicitudInformacion row : selectedRows) {
                 try {
-                    service.deleteRow(id);
+                    String userNameToDelete = row.getUserName();
+                    if (userNameToDelete.equals(sessionUserName)) {
+                        service.deleteRow(row.getId());
+                        rows.remove(row);
+                        r++;
+                    } else {
+                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Solo el usuario que capturó el registro puede eliminarlo"));
+                    }
                 } catch (Exception e) {
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
                 }
-            });
-            rows.removeAll(selectedRows);
+            }
             selectedRows.clear();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Registros eliminados", String.valueOf(size)));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Registros eliminados", String.valueOf(r)));
         }
     }
 
     public void deleteRow() {
+        String userNameToDelete = selectedRow.getUserName();
+        String sessionUserName = SessionUtils.getUserName();
+        if (!userNameToDelete.equals(sessionUserName)) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Solo el usuario que capturó el registro puede eliminarlo"));
+            return;
+        }
+
         long id = selectedRow.getId();
         try {
             service.deleteRow(selectedRow.getId());
