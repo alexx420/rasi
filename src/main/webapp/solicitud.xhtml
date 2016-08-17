@@ -14,9 +14,10 @@ and open the template in the editor.
     <f:view contentType="text/html">
         <h:head>
             <f:facet name="first">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
                 <title>Solicitud | RASI</title>
                 <link href="https://framework-gb.cdn.gob.mx/favicon.ico" rel="shortcut icon"/>
-                <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
             </f:facet>
         </h:head>
         <h:body>
@@ -34,11 +35,14 @@ and open the template in the editor.
             <!--header-->
             <h:form id="formHeader">
                 <p:menubar>
+                    <!--titulo-->
                     <p:menuitem value="Solicitud de información"/>
                     <f:facet name="options">
-                        <p:inputText type="hidden" style="margin-right:10px" />
+                        <!--username-->
+                        <p:commandButton value="#{solicitudView.username}" icon="ui-icon-person"/>
                         <!--logout-->
-                        <p:commandButton value="Salir" actionListener="#{usuarioLoginView.logout}" oncomplete="handleLogoutRequest(xhr, status, args)">
+                        <p:commandButton value="Salir" actionListener="#{usuarioLoginView.logout}" 
+                                         oncomplete="handleLogoutRequest(xhr, status, args)" icon="ui-icon-power">
                             <p:confirm header="Cerrar sesión" message="¿Estás seguro?" icon="ui-icon-alert" />
                         </p:commandButton>
                         <!--confirm dialog-->
@@ -56,9 +60,8 @@ and open the template in the editor.
                 <!--datatable-->
                 <p:dataTable id="dtSolicitud" var="solicitud" value="#{solicitudView.rows}" selectionMode="multiple"
                              selection="#{solicitudView.selectedRows}" rowKey="#{solicitud.id}"
-                             editable="true"  widgetVar="wvSolicitudes" 
-                             scrollRows="100" scrollable="true" liveScroll="true" 
-                             scrollHeight="350" emptyMessage="No se encontraron resultados" 
+                             editable="true"  widgetVar="wvSolicitudes" scrollable="true"
+                             scrollHeight="400" emptyMessage="No se encontraron resultados" 
                              filteredValue="#{solicitudView.filteredRows}" >
 
                     <f:facet name="header" >
@@ -251,10 +254,10 @@ and open the template in the editor.
                 </p:dataTable>
 
                 <!--agregar-->
-                <p:commandButton  value="Agregar" icon="fa fa-plus" styleClass="ui-priority-primary" 
-                                  actionListener="#{solicitudView.addRow}" update=":form:dtSolicitud :form:growl :form"></p:commandButton>
+                <p:commandButton  value="Agregar" icon="ui-icon-plusthick" actionListener="#{solicitudView.addRow}" 
+                                  update=":form:dtSolicitud :form:growl :form"></p:commandButton>
                 <!--eliminar-->
-                <p:commandButton id="cbEliminar" value="Eliminar" icon="fa fa-remove" 
+                <p:commandButton id="cbEliminar" value="Eliminar" icon="ui-icon-minus" 
                                  styleClass="ui-state-error" actionListener="#{solicitudView.deleteSelected}" update=":form:dtSolicitud :form:growl :form">
                     <p:confirm header="Eliminar registros" message="¿Estás seguro?" icon="ui-icon-alert" />
                 </p:commandButton>

@@ -40,10 +40,16 @@ public class SolicitudInformacionView implements Serializable {
 
     @ManagedProperty("#{solicitudService}")
     private SolicitudInformacionService service;
+    private String username;
 
     @PostConstruct
     public void init() {
         rows = service.listRows();
+        username = SessionUtils.getUserName();
+    }
+
+    public String getUsername() {
+        return username;
     }
 
     public SolicitudInformacion getSelectedRow() {
