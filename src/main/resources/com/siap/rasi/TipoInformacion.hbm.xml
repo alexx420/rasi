@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 4/08/2016 04:32:59 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-  <class catalog="rasi" name="com.siap.rasi.pojo.TipoInformacion" optimistic-lock="version" schema="dbo" table="tipoInformacion">
+  <class catalog="rasi" name="com.siap.rasi.pojo.TipoInformacion" optimistic-lock="version" schema="v1_1" table="tipoInformacion">
     <id name="id" type="int">
       <column name="id"/>
       <generator class="identity"/>
