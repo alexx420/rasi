@@ -130,7 +130,7 @@ public class SolicitudInformacionView implements Serializable {
         SolicitudInformacion si = (SolicitudInformacion) event.getObject();
         try {
             String sessionUserName = SessionUtils.getUserName();
-            String userNameToDelete = si.getUserName();
+            String userNameToDelete = si.getUsuario().getUsername();
             if (userNameToDelete.equals(sessionUserName)) {
                 service.updateRow(si);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Edición correcta", "ID: " + String.valueOf(si.getId())));
@@ -161,7 +161,7 @@ public class SolicitudInformacionView implements Serializable {
             String sessionUserName = SessionUtils.getUserName();
             for (SolicitudInformacion row : selectedRows) {
                 try {
-                    String userNameToDelete = row.getUserName();
+                    String userNameToDelete = row.getUsuario().getUsername();
                     if (userNameToDelete.equals(sessionUserName)) {
                         service.deleteRow(row.getId());
                         rows.remove(row);
@@ -179,7 +179,7 @@ public class SolicitudInformacionView implements Serializable {
     }
 
     public void deleteRow() {
-        String userNameToDelete = selectedRow.getUserName();
+        String userNameToDelete = selectedRow.getUsuario().getUsername();
         String sessionUserName = SessionUtils.getUserName();
         if (!userNameToDelete.equals(sessionUserName)) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Solo el usuario que capturó el registro puede eliminarlo"));

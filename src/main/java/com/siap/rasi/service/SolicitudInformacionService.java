@@ -11,6 +11,7 @@ import com.siap.rasi.pojo.EntidadFederativa;
 import com.siap.rasi.pojo.Ocupacion;
 import com.siap.rasi.pojo.SolicitudInformacion;
 import com.siap.rasi.pojo.TipoInformacion;
+import com.siap.rasi.pojo.Usuario;
 import com.siap.rasi.pojo.ViaSolicitud;
 import com.siap.rasi.util.HibernateUtil;
 import java.util.ArrayList;
@@ -137,8 +138,11 @@ public class SolicitudInformacionService {
     }
 
     public SolicitudInformacion addRow() {
+
+        Usuario usuario = new Usuario();
+        usuario.setUsername(SessionUtils.getUserName());
         SolicitudInformacion si = new SolicitudInformacion();
-        si.setUserName(SessionUtils.getUserName());
+        si.setUsuario(usuario);
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = null;
         Long carID = null;

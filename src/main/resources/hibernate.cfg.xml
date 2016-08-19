@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
-    <session-factory>
-        <property name="hibernate.connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
-        <property name="hibernate.connection.url">jdbc:sqlserver://localhost:1433;databaseName=rasi</property>
-        <property name="hibernate.connection.username">sa</property>
-        <property name="hibernate.connection.password">Password123</property>
-        <mapping resource="com/siap/rasi/EntidadFederativa.hbm.xml"/>
-        <mapping resource="com/siap/rasi/TipoInformacion.hbm.xml"/>
-        <mapping resource="com/siap/rasi/SolicitudInformacion.hbm.xml"/>
-        <mapping resource="com/siap/rasi/Direccion.hbm.xml"/>
-        <mapping resource="com/siap/rasi/Ocupacion.hbm.xml"/>
-        <mapping resource="com/siap/rasi/Usuario.hbm.xml"/>
-        <mapping resource="com/siap/rasi/ViaSolicitud.hbm.xml"/>
-    </session-factory>
+  <session-factory>
+    <property name="hibernate.connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
+    <property name="hibernate.connection.url">jdbc:sqlserver://localhost\v1_2:1433;databaseName=rasi</property>
+    <property name="hibernate.connection.username">sa</property>
+    <property name="hibernate.connection.password">Password123</property>
+    <mapping resource="com/siap/rasi/pojo/Direccion.hbm.xml"/>
+    <mapping resource="com/siap/rasi/pojo/Pais.hbm.xml"/>
+    <mapping resource="com/siap/rasi/pojo/Ocupacion.hbm.xml"/>
+    <mapping resource="com/siap/rasi/pojo/Usuario.hbm.xml"/>
+    <mapping resource="com/siap/rasi/pojo/SolicitudInformacion.hbm.xml"/>
+    <mapping resource="com/siap/rasi/pojo/UsuarioSolicitud.hbm.xml"/>
+    <mapping resource="com/siap/rasi/pojo/ViaSolicitud.hbm.xml"/>
+    <mapping resource="com/siap/rasi/pojo/EntidadFederativa.hbm.xml"/>
+    <mapping resource="com/siap/rasi/pojo/TipoInformacion.hbm.xml"/>
+  </session-factory>
 </hibernate-configuration>

@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 19/08/2016 03:56:54 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.siap.rasi.pojo.SolicitudInformacion" table="solicitudInformacion" schema="v1_2" catalog="rasi" optimistic-lock="version">
+        <id name="id" type="long">
+            <column name="id" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="usuario" class="com.siap.rasi.pojo.Usuario" fetch="select">
+            <column name="username" length="30" not-null="true" />
+        </many-to-one>
+        <many-to-one name="usuarioSolicitud" class="com.siap.rasi.pojo.UsuarioSolicitud" fetch="select">
+            <column name="idUsuarioSolicitud" not-null="true" />
+        </many-to-one>
+        <property name="fecha" type="date">
+            <column name="fecha" length="10" not-null="true" />
+        </property>
+        <property name="tipoInformacion" type="string">
+            <column name="tipoInformacion" not-null="true" />
+        </property>
+        <property name="especifiqueInformacion" type="string">
+            <column name="especifiqueInformacion" not-null="true" />
+        </property>
+        <property name="viaSolicitud" type="string">
+            <column name="viaSolicitud" not-null="true" />
+        </property>
+        <property name="fechaAtencion" type="date">
+            <column name="fechaAtencion" length="10" />
+        </property>
+        <property name="atendioSolicitud" type="string">
+            <column name="atendioSolicitud" />
+        </property>
+    </class>
+</hibernate-mapping>
