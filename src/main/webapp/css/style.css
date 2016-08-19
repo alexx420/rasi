@@ -30,3 +30,6 @@ and open the template in the editor.
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#563d7c', endColorstr='#6F5499', GradientType=0);
     background-repeat: repeat-x;
 }
+.ui-accordion .ui-accordion-content{
+    padding: 0px;
+}
