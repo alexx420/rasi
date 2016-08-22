@@ -1,54 +1,53 @@
-<?xml version="1.0"?>
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 19/08/2016 03:56:54 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="com.siap.rasi.pojo.UsuarioSolicitud" table="usuarioSolicitud" schema="v1_2" catalog="rasi" optimistic-lock="version">
-        <id name="id" type="long">
-            <column name="id" />
-            <generator class="assigned" />
-        </id>
-        <many-to-one name="usuario" class="com.siap.rasi.pojo.Usuario" fetch="select">
-            <column name="username" length="30" />
-        </many-to-one>
-        <property name="nombres" type="string">
-            <column name="nombres" not-null="true" />
-        </property>
-        <property name="apellidoPaterno" type="string">
-            <column name="apellidoPaterno" not-null="true" />
-        </property>
-        <property name="apellidoMaterno" type="string">
-            <column name="apellidoMaterno" not-null="true" />
-        </property>
-        <property name="sexo" type="string">
-            <column name="sexo" not-null="true" />
-        </property>
-        <property name="ocupacion" type="string">
-            <column name="ocupacion" not-null="true" />
-        </property>
-        <property name="pais" type="string">
-            <column name="pais" not-null="true" />
-        </property>
-        <property name="correo" type="string">
-            <column name="correo" not-null="true" />
-        </property>
-        <property name="telefonoCelular" type="string">
-            <column name="telefonoCelular" not-null="true" />
-        </property>
-        <property name="telefonofijo" type="string">
-            <column name="telefonofijo" not-null="true" />
-        </property>
-        <property name="institucion" type="string">
-            <column name="institucion" not-null="true" />
-        </property>
-        <property name="entidadFederativa" type="string">
-            <column name="entidadFederativa" />
-        </property>
-        <set name="solicitudInformacions" table="solicitudInformacion" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="idUsuarioSolicitud" not-null="true" />
-            </key>
-            <one-to-many class="com.siap.rasi.pojo.SolicitudInformacion" />
-        </set>
-    </class>
+  <class catalog="rasi" name="com.siap.rasi.pojo.UsuarioSolicitud" optimistic-lock="version" schema="v1_2" table="usuarioSolicitud">
+    <id name="id" type="long">
+      <column name="id"/>
+      <generator class="assigned"/>
+    </id>
+    <many-to-one class="com.siap.rasi.pojo.Usuario" fetch="select" name="usuario">
+      <column length="30" name="username"/>
+    </many-to-one>
+    <property name="nombres" type="string">
+      <column name="nombres" not-null="true"/>
+    </property>
+    <property name="apellidoPaterno" type="string">
+      <column name="apellidoPaterno" not-null="true"/>
+    </property>
+    <property name="apellidoMaterno" type="string">
+      <column name="apellidoMaterno" not-null="true"/>
+    </property>
+    <property name="sexo" type="string">
+      <column name="sexo" not-null="true"/>
+    </property>
+    <property name="ocupacion" type="string">
+      <column name="ocupacion" not-null="true"/>
+    </property>
+    <property name="pais" type="string">
+      <column name="pais" not-null="true"/>
+    </property>
+    <property name="correo" type="string">
+      <column name="correo" not-null="true"/>
+    </property>
+    <property name="telefonoCelular" type="string">
+      <column name="telefonoCelular" not-null="true"/>
+    </property>
+    <property name="telefonoFijo" type="string">
+      <column name="telefonoFijo" not-null="true"/>
+    </property>
+    <property name="institucion" type="string">
+      <column name="institucion" not-null="true"/>
+    </property>
+    <property name="entidadFederativa" type="string">
+      <column name="entidadFederativa"/>
+    </property>
+    <set fetch="select" inverse="true" lazy="true" name="solicitudInformacions" table="solicitudInformacion">
+      <key>
+        <column name="idUsuarioSolicitud" not-null="true"/>
+      </key>
+      <one-to-many class="com.siap.rasi.pojo.SolicitudInformacion"/>
+    </set>
+  </class>
 </hibernate-mapping>

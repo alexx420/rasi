@@ -184,7 +184,166 @@ and open the template in the editor.
                     </p:tab>
                     <p:tab title="Usuario solicitante">
                         <h:panelGrid >
-                            <h:outputText value="Francis Ford Coppola's legendary..." />
+                            <!--datatable-->
+                            <!--usuario solicitante-->
+                            <h:form id="formSolicitante">
+                                <!--datatable-->
+                                <p:dataTable id="dtSolicitante" var="solicitante" value="#{solicitanteView.rows}" selectionMode="multiple"
+                                             selection="#{solicitanteView.selectedRows}" rowKey="#{solicitante.id}"
+                                             editable="true"  widgetVar="wvSolicitantes" scrollable="true"
+                                             scrollHeight="350" emptyMessage="No se encontraron resultados" 
+                                             filteredValue="#{solicitudView.filteredRows}" >
+
+                                    <f:facet name="header" >
+                                        <!--buscar en datatable-->
+                                        <p:outputPanel style="text-align: right !important;">
+                                            <p:inputText id="globalFilter" onkeyup="PF('wvSolicitantes').filter()"  style="width:230px" placeholder="Buscar"/>
+                                        </p:outputPanel>
+                                    </f:facet>
+
+                                    <p:ajax event="rowEdit" listener="#{solicitanteView.onRowEdit}" update=":formContent:msgs" />
+                                    <p:ajax event="rowEditCancel" listener="#{solicitanteView.onRowCancel}" update=":formContent:msgs" />
+
+                                    <p:column style="width:32px">
+                                        <p:rowEditor />
+                                    </p:column>
+                                    <!--ID-->
+                                    <p:column width="50" headerText="ID">
+                                        <h:outputText value="#{solicitante.id}" />
+                                    </p:column>
+                                    <!--nombre text-->
+                                    <p:column width="140" filterBy="#{solicitante.nombres}" sortBy="#{solicitante.nombres}" headerText="Nombres">
+                                        <p:cellEditor>
+                                            <f:facet name="output"><h:outputText value="#{solicitante.nombres}" /></f:facet>
+                                            <f:facet name="input"><p:inputText value="#{solicitante.nombres}" label="Nombres" /></f:facet>
+                                        </p:cellEditor>
+                                    </p:column>
+                                    <!--apellido paterno-->
+                                    <p:column width="140" filterBy="#{solicitante.apellidoPaterno}" sortBy="#{solicitante.apellidoPaterno}" headerText="Apellido paterno">
+                                        <p:cellEditor>
+                                            <f:facet name="output"><h:outputText value="#{solicitante.apellidoPaterno}" /></f:facet>
+                                            <f:facet name="input"><p:inputText value="#{solicitante.apellidoPaterno}"  label="paterno" /></f:facet>
+                                        </p:cellEditor>
+                                    </p:column>
+                                    <!--apellido materno-->
+                                    <p:column width="140" filterBy="#{solicitante.apellidoMaterno}" sortBy="#{solicitante.apellidoMaterno}" headerText="Apellido materno">
+                                        <p:cellEditor>
+                                            <f:facet name="output"><h:outputText value="#{solicitante.apellidoMaterno}" /></f:facet>
+                                            <f:facet name="input"><p:inputText value="#{solicitante.apellidoMaterno}"  label="materno" /></f:facet>
+                                        </p:cellEditor>
+                                    </p:column>
+                                    <!--sexo select list-->
+                                    <p:column width="180" filterBy="#{solicitante.sexo}" sortBy="#{solicitante.sexo}" headerText="Sexo">
+                                        <p:cellEditor>
+                                            <f:facet name="output"><h:outputText value="#{solicitante.sexo?'Masculino':'Femenino'}" /></f:facet>
+                                            <f:facet name="input">
+                                                <h:selectOneMenu value="#{solicitante.sexo}" >
+                                                    <f:selectItem itemLabel="Masculino" itemValue="Masculino" />
+                                                    <f:selectItem itemLabel="Femenino" itemValue="Femenino" />
+                                                </h:selectOneMenu>
+                                            </f:facet>
+                                        </p:cellEditor>
+                                    </p:column>
+                                    <!--ocupacion select list-->
+                                    <p:column width="140" filterBy="#{solicitante.ocupacion}" sortBy="#{solicitante.ocupacion}" headerText="Ocupación">
+                                        <p:cellEditor>
+                                            <f:facet name="output"><h:outputText value="#{solicitante.ocupacion}" /></f:facet>
+                                            <f:facet name="input">
+                                                <h:selectOneMenu value="#{solicitante.ocupacion}" >
+                                                    <f:selectItem itemLabel="Selecciona uno" itemValue="" />
+                                                    <f:selectItems value="#{solicitanteView.ocupaciones}" var="item" itemLabel="#{item.nombre}" itemValue="#{item.nombre}" />
+                                                </h:selectOneMenu>
+                                            </f:facet>
+                                        </p:cellEditor>
+                                    </p:column>
+                                    <!--país select list-->
+                                    <p:column width="180" filterBy="#{solicitante.pais}" sortBy="#{solicitante.pais}" headerText="País">
+                                        <p:cellEditor>
+                                            <f:facet name="output"><h:outputText value="#{solicitante.pais}" /></f:facet>
+                                            <f:facet name="input">
+                                                <h:selectOneMenu value="#{solicitante.entidadFederativa}" >
+                                                    <f:selectItem itemLabel="Selecciona uno" itemValue="" />
+                                                    <f:selectItems value="#{solicitanteView.paises}" var="item" itemLabel="#{item.nombre}" itemValue="#{item.nombre}" />
+                                                </h:selectOneMenu>
+                                            </f:facet>
+                                        </p:cellEditor>
+                                    </p:column>
+                                    <!--entidad federativa select list-->
+                                    <p:column width="180" filterBy="#{solicitante.entidadFederativa}" sortBy="#{solicitante.entidadFederativa}" headerText="Entidad federativa">
+                                        <p:cellEditor>
+                                            <f:facet name="output"><h:outputText value="#{solicitante.entidadFederativa}" /></f:facet>
+                                            <f:facet name="input">
+                                                <h:selectOneMenu value="#{solicitante.entidadFederativa}" >
+                                                    <f:selectItem itemLabel="Selecciona uno" itemValue="" />
+                                                    <f:selectItems value="#{solicitanteView.entidades}" var="item" itemLabel="#{item.nombre}" itemValue="#{item.nombre}" />
+                                                </h:selectOneMenu>
+                                            </f:facet>
+                                        </p:cellEditor>
+                                    </p:column>
+                                    <!--institucion text-->
+                                    <p:column width="140" filterBy="#{solicitante.institucion}" sortBy="#{solicitante.institucion}" headerText="Institución">
+                                        <p:cellEditor>
+                                            <f:facet name="output"><h:outputText value="#{solicitante.institucion}" /></f:facet>
+                                            <f:facet name="input"><p:inputText value="#{solicitante.institucion}"  label="Institución" /></f:facet>
+                                        </p:cellEditor>
+                                    </p:column>
+                                    <!--telefono mask input-->
+                                    <p:column width="200" filterBy="#{solicitante.telefonoFijo}" sortBy="#{solicitante.telefonoFijo}" headerText="Teléfono fijo">
+                                        <p:cellEditor>
+                                            <f:facet name="output"><h:outputText value="#{solicitante.telefonoFijo}" /></f:facet>
+                                            <f:facet name="input"><p:inputMask value="#{solicitante.telefonoFijo}"  mask="99 99 99 99 99? x99999" label="Teléfono fijo"/></f:facet>
+                                        </p:cellEditor>
+                                    </p:column>
+                                    <!--celular mask input-->
+                                    <p:column width="160" filterBy="#{solicitante.telefonoCelular}" sortBy="#{solicitante.telefonoCelular}" headerText="Teléfono celular">
+                                        <p:cellEditor>
+                                            <f:facet name="output"><h:outputText value="#{solicitante.telefonoCelular}" /></f:facet>
+                                            <f:facet name="input"><p:inputMask value="#{solicitante.telefonoCelular}"  mask="(999) 99 99 99 99 99" label="Teléfono celular"/></f:facet>
+                                        </p:cellEditor>
+                                    </p:column>
+                                    <!--correo validacion-->
+                                    <p:column width="140" filterBy="#{solicitante.correo}" sortBy="#{solicitante.correo}" headerText="Correo">
+                                        <p:cellEditor>
+                                            <f:facet name="output"><h:outputText value="#{solicitante.correo}" /></f:facet>
+                                            <f:facet name="input">
+                                                <p:inputText id="email1" value="#{solicitante.correo}"  label="Correo" >
+                                                    <f:validator validatorId="custom.emailValidator" />
+                                                </p:inputText>
+                                            </f:facet>
+                                        </p:cellEditor>
+                                    </p:column>
+                                    <!--recibir informacion select list-->
+                                    <p:column width="180" filterBy="#{solicitante.recibirInformacion}" sortBy="#{solicitante.recibirInformacion}" headerText="Recibir información">
+                                        <p:cellEditor>
+                                            <f:facet name="output"><h:outputText value="#{solicitante.recibirInformacion?'Si':'No'}" /></f:facet>
+                                            <f:facet name="input">
+                                                <h:selectOneMenu value="#{solicitante.recibirInformacion}" >
+                                                    <f:selectItem itemLabel="Si" itemValue="true" />
+                                                    <f:selectItem itemLabel="No" itemValue="false" />
+                                                </h:selectOneMenu>
+                                            </f:facet>
+                                        </p:cellEditor>
+                                    </p:column>
+                                    <!--username-->
+                                    <p:column width="100" filterBy="#{solicitante.userName}" sortBy="#{solicitante.userName}"  headerText="Usuario">
+                                        <h:outputText value="#{solicitante.userName}" />
+                                    </p:column>
+
+                                    <f:facet name="footer">
+                                        Hay #{fn:length(solicitanteView.rows)} registro(s)
+                                    </f:facet>
+                                </p:dataTable>
+
+                                <!--agregar-->
+                                <p:commandButton  value="Agregar" icon="ui-icon-plusthick" actionListener="#{solicitanteView.addRow}" 
+                                                  update="dtSolicitante :formContent:msgs"></p:commandButton>
+                                <!--eliminar-->
+                                <p:commandButton id="cbEliminar" value="Eliminar" icon="ui-icon-minus" 
+                                                 styleClass="ui-state-error" actionListener="#{solicitanteView.deleteSelected}" 
+                                                 update="dtSolicitante :formContent:msgs">
+                                    <p:confirm header="Eliminar registros" message="¿Estás seguro?" icon="ui-icon-alert" />
+                                </p:commandButton>
+                            </h:form>
                         </h:panelGrid>
                     </p:tab>
                 </p:accordionPanel>
