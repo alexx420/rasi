@@ -45,60 +45,26 @@ public class UsuarioSolicitudService {
         return list;
     }
 
-//    public List<ViaSolicitud> getViasSolicitud() {
-//        List<ViaSolicitud> list = new ArrayList<>();
-//        Session session = HibernateUtil.getSessionFactory().openSession();
-//        Transaction tx = null;
-//        try {
-//            tx = session.beginTransaction();
-//            list = session.createQuery("FROM ViaSolicitud ORDER BY nombre").list();
-//            tx.commit();
-//        } catch (HibernateException e) {
-//            if (tx != null) {
-//                tx.rollback();
-//            }
-//        } finally {
-//            session.close();
-//        }
-//        return list;
-//    }
-//
-//    public List<TipoInformacion> getTiposInformacion() {
-//        List<TipoInformacion> list = new ArrayList<>();
-//        Session session = HibernateUtil.getSessionFactory().openSession();
-//        Transaction tx = null;
-//        try {
-//            tx = session.beginTransaction();
-//            list = session.createQuery("FROM TipoInformacion ORDER BY nombre").list();
-//            tx.commit();
-//        } catch (HibernateException e) {
-//            if (tx != null) {
-//                tx.rollback();
-//            }
-//        } finally {
-//            session.close();
-//        }
-//        return list;
-//    }
-//
-//    public List<Direccion> getDirecciones() {
-//        List<Direccion> list = new ArrayList<>();
-//        Session session = HibernateUtil.getSessionFactory().openSession();
-//        Transaction tx = null;
-//        try {
-//            tx = session.beginTransaction();
-//            list = session.createQuery("FROM Direccion ORDER BY nombre").list();
-//            tx.commit();
-//        } catch (HibernateException e) {
-//            if (tx != null) {
-//                tx.rollback();
-//            }
-//        } finally {
-//            session.close();
-//        }
-//        return list;
-//    }
-//
+    public List<UsuarioSolicitud> listRows(Long id) {
+        List<UsuarioSolicitud> list = new ArrayList<>();
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            list = session.createQuery("FROM UsuarioSolicitud WHERE id = :id")
+                    .setParameter("id", id)
+                    .list();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+        } finally {
+            session.close();
+        }
+        return list;
+    }
+
     public List<EntidadFederativa> getEntidades() {
         List<EntidadFederativa> list = new ArrayList<>();
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -157,7 +123,7 @@ public class UsuarioSolicitudService {
 
         Usuario usuario = new Usuario();
         usuario.setUsername(SessionUtils.getUserName());
-        UsuarioSolicitud si = new UsuarioSolicitud();
+        UsuarioSolicitud si = new UsuarioSolicitud(Long.MIN_VALUE, "", "", "", "Masculino", "", "", "", "", "", "");
         si.setUsuario(usuario);
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = null;

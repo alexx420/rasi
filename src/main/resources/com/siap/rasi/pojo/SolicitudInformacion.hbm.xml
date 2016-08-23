@@ -6,12 +6,12 @@
     <class name="com.siap.rasi.pojo.SolicitudInformacion" table="solicitudInformacion" schema="v1_2" catalog="rasi" optimistic-lock="version">
         <id name="id" type="long">
             <column name="id" />
-            <generator class="assigned" />
+            <generator class="identity" />
         </id>
-        <many-to-one name="usuario" class="com.siap.rasi.pojo.Usuario" fetch="select">
+        <many-to-one name="usuario" class="com.siap.rasi.pojo.Usuario">
             <column name="username" length="30" not-null="true" />
         </many-to-one>
-        <many-to-one name="usuarioSolicitud" class="com.siap.rasi.pojo.UsuarioSolicitud" fetch="select">
+        <many-to-one name="usuarioSolicitud" class="com.siap.rasi.pojo.UsuarioSolicitud">
             <column name="idUsuarioSolicitud" not-null="true" />
         </many-to-one>
         <property name="fecha" type="date">

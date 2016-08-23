@@ -63,8 +63,10 @@ and open the template in the editor.
 
                     </h:panelGrid>
                     <f:facet name="footer">
-                        <p:commandButton value="Entrar" update="growl" styleClass="ui-priority-primary" actionListener="#{usuarioLoginView.login}"
-                                         oncomplete="handleLoginRequest(xhr, status, args)" />
+                        <p:commandButton value="Entrar" update="growl" styleClass="ui-priority-primary" 
+                                         actionListener="#{usuarioLoginView.login}"
+                                         oncomplete="handleLoginRequest(xhr, status, args)" 
+                                         icon="ui-icon-key"/>
                     </f:facet>  
                     <p:effect type="bounce" event="load" />
                 </p:panel> 

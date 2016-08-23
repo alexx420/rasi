@@ -14,17 +14,5 @@
         <property name="activo" type="java.lang.Boolean">
             <column name="activo" />
         </property>
-        <set name="usuarioSolicituds" table="usuarioSolicitud" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="username" length="30" />
-            </key>
-            <one-to-many class="com.siap.rasi.pojo.UsuarioSolicitud" />
-        </set>
-        <set name="solicitudInformacions" table="solicitudInformacion" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="username" length="30" not-null="true" />
-            </key>
-            <one-to-many class="com.siap.rasi.pojo.SolicitudInformacion" />
-        </set>
     </class>
 </hibernate-mapping>

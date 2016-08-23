@@ -13,6 +13,7 @@ import com.siap.rasi.pojo.EntidadFederativa;
 import com.siap.rasi.pojo.Ocupacion;
 import com.siap.rasi.pojo.Pais;
 import com.siap.rasi.pojo.UsuarioSolicitud;
+import com.siap.rasi.service.SolicitudInformacionService;
 import com.siap.rasi.service.UsuarioSolicitudService;
 import java.io.Serializable;
 import java.util.List;
@@ -21,10 +22,10 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.component.behavior.Behavior;
 import javax.faces.context.FacesContext;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
+import org.primefaces.event.SelectEvent;
 
 @ManagedBean(name = "solicitanteView")
 @ViewScoped
@@ -62,18 +63,6 @@ public class UsuarioSolicitudView implements Serializable {
         return rows;
     }
 
-//    public List<ViaSolicitud> getViasSolicitud() {
-//        return service.getViasSolicitud();
-//    }
-//
-//    public List<Direccion> getDirecciones() {
-//        return service.getDirecciones();
-//    }
-//
-//    public List<TipoInformacion> getTiposInformacion() {
-//        return service.getTiposInformacion();
-//    }
-//
     public List<Ocupacion> getOcupaciones() {
         return service.getOcupaciones();
     }
@@ -110,6 +99,15 @@ public class UsuarioSolicitudView implements Serializable {
         this.service = service;
     }
 
+    public void onRowSelect(SelectEvent event) {
+        Long id = ((UsuarioSolicitud) event.getObject()).getId();
+        SolicitudInformacionView siv = new SolicitudInformacionView();
+        SolicitudInformacionService sis = new SolicitudInformacionService();
+        siv.setRows(sis.listRows(id));
+        FacesMessage msg = new FacesMessage("Car Selected", ((UsuarioSolicitud) event.getObject()).getId().toString());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
     public void onCellEdit(CellEditEvent event) {
         Object oldValue = event.getOldValue();
         Object newValue = event.getNewValue();
@@ -127,7 +125,6 @@ public class UsuarioSolicitudView implements Serializable {
     }
 
     public void onRowEdit(RowEditEvent event) {
-        Behavior behavior = event.getBehavior();
         UsuarioSolicitud si = (UsuarioSolicitud) event.getObject();
         try {
             String sessionUserName = SessionUtils.getUserName();

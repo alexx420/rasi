@@ -47,6 +47,26 @@ public class SolicitudInformacionService {
         return list;
     }
 
+    public List<SolicitudInformacion> listRows(Long id) {
+        List<SolicitudInformacion> list = new ArrayList<>();
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            list = session.createQuery("FROM SolicitudInformacion")
+                    //                    .setParameter("id", 2)
+                    .list();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+        } finally {
+            session.close();
+        }
+        return null;
+    }
+
     public List<ViaSolicitud> getViasSolicitud() {
         List<ViaSolicitud> list = new ArrayList<>();
         Session session = HibernateUtil.getSessionFactory().openSession();
