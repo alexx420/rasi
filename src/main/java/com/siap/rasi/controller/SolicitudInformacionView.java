@@ -10,10 +10,9 @@ package com.siap.rasi.controller;
  * @author rafael.esquivel
  */
 import com.siap.rasi.pojo.Direccion;
-import com.siap.rasi.pojo.EntidadFederativa;
-import com.siap.rasi.pojo.Ocupacion;
 import com.siap.rasi.pojo.SolicitudInformacion;
 import com.siap.rasi.pojo.TipoInformacion;
+import com.siap.rasi.pojo.UsuarioSolicitud;
 import com.siap.rasi.pojo.ViaSolicitud;
 import com.siap.rasi.service.SolicitudInformacionService;
 import java.io.Serializable;
@@ -23,7 +22,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.component.behavior.Behavior;
 import javax.faces.context.FacesContext;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
@@ -37,6 +35,7 @@ public class SolicitudInformacionView implements Serializable {
     private List<SolicitudInformacion> selectedRows;
     private List<SolicitudInformacion> filteredRows;
     private SolicitudInformacion selectedRow;
+    private UsuarioSolicitud us;
 
     @ManagedProperty("#{solicitudService}")
     private SolicitudInformacionService service;
@@ -46,6 +45,14 @@ public class SolicitudInformacionView implements Serializable {
     public void init() {
         rows = service.listRows();
         username = SessionUtils.getUserName();
+    }
+
+    public UsuarioSolicitud getUs() {
+        return us;
+    }
+
+    public void setUs(UsuarioSolicitud us) {
+        this.us = us;
     }
 
     public String getUsername() {
@@ -76,14 +83,6 @@ public class SolicitudInformacionView implements Serializable {
         return service.getTiposInformacion();
     }
 
-    public List<Ocupacion> getOcupaciones() {
-        return service.getOcupaciones();
-    }
-
-    public List<EntidadFederativa> getEntidades() {
-        return service.getEntidades();
-    }
-
     public void setRows(List<SolicitudInformacion> rows) {
         this.rows = rows;
     }
@@ -108,6 +107,10 @@ public class SolicitudInformacionView implements Serializable {
         this.service = service;
     }
 
+    public SolicitudInformacionService getService() {
+        return service;
+    }
+
     public void onCellEdit(CellEditEvent event) {
         Object oldValue = event.getOldValue();
         Object newValue = event.getNewValue();
@@ -125,12 +128,10 @@ public class SolicitudInformacionView implements Serializable {
     }
 
     public void onRowEdit(RowEditEvent event) {
-        Behavior behavior = event.getBehavior();
-        System.out.println("//" + behavior);
         SolicitudInformacion si = (SolicitudInformacion) event.getObject();
         try {
             String sessionUserName = SessionUtils.getUserName();
-            String userNameToDelete = si.getUsuario().getUsername();
+            String userNameToDelete = si.getUsername();
             if (userNameToDelete.equals(sessionUserName)) {
                 service.updateRow(si);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Edición correcta", "ID: " + String.valueOf(si.getId())));
@@ -148,7 +149,7 @@ public class SolicitudInformacionView implements Serializable {
     }
 
     public void addRow() {
-        SolicitudInformacion car = service.addRow();
+        SolicitudInformacion car = service.addRow(us);
         rows.add(0, car);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro agregado", "ID: " + car.getId()));
     }
@@ -161,7 +162,7 @@ public class SolicitudInformacionView implements Serializable {
             String sessionUserName = SessionUtils.getUserName();
             for (SolicitudInformacion row : selectedRows) {
                 try {
-                    String userNameToDelete = row.getUsuario().getUsername();
+                    String userNameToDelete = row.getUsername();
                     if (userNameToDelete.equals(sessionUserName)) {
                         service.deleteRow(row.getId());
                         rows.remove(row);
@@ -179,7 +180,7 @@ public class SolicitudInformacionView implements Serializable {
     }
 
     public void deleteRow() {
-        String userNameToDelete = selectedRow.getUsuario().getUsername();
+        String userNameToDelete = selectedRow.getUsername();
         String sessionUserName = SessionUtils.getUserName();
         if (!userNameToDelete.equals(sessionUserName)) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Solo el usuario que capturó el registro puede eliminarlo"));

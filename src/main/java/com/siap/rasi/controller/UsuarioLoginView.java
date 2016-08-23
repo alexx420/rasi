@@ -9,6 +9,9 @@ import com.siap.rasi.service.UsuarioService;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -74,7 +77,8 @@ public class UsuarioLoginView implements Serializable {
                 msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error de inicio de sesión",
                         "Credenciales no válidas");
             }
-        } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException | SQLException e) {
+            Logger.getLogger(UsuarioLoginView.class.getName()).log(Level.SEVERE, null, e);
             msg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error en el servidor",
                     e.getMessage());
         }

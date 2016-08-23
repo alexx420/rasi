@@ -6,21 +6,20 @@
 package com.siap.rasi.service;
 
 import com.siap.rasi.pojo.Usuario;
-import com.siap.rasi.util.HibernateUtil;
+import com.siap.rasi.util.DbSingleton;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
-import org.hibernate.HibernateException;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 @ManagedBean(name = "usuarioService")
 @ApplicationScoped
@@ -29,104 +28,21 @@ public class UsuarioService {
     public UsuarioService() {
     }
 
-    public List<Usuario> listUsers() {
-        List<Usuario> list = new ArrayList<>();
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction tx = null;
-        try {
-            tx = session.beginTransaction();
-            List cars = session.createQuery("FROM Usuario").list();
-            for (Iterator iterator = cars.iterator(); iterator.hasNext();) {
-                Usuario user = (Usuario) iterator.next();
-                list.add(user);
-            }
-            tx.commit();
-        } catch (HibernateException e) {
-            if (tx != null) {
-                tx.rollback();
-            }
-        } finally {
-            session.close();
-        }
-        return list;
-    }
-
-    public Long addUser(Usuario user) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction tx = null;
-        Long userID = null;
-        try {
-            tx = session.beginTransaction();
-            userID = (Long) session.save(user);
-            tx.commit();
-        } catch (HibernateException e) {
-            if (tx != null) {
-                tx.rollback();
-            }
-        } finally {
-            session.close();
-        }
-        return userID;
-    }
-
-    public void updateUser(Usuario user) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction tx = null;
-        try {
-            tx = session.beginTransaction();
-            session.update(user);
-            tx.commit();
-        } catch (HibernateException e) {
-            if (tx != null) {
-                tx.rollback();
-            }
-        } finally {
-            session.close();
-        }
-    }
-
-    public void deleteUser(String id) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction tx = null;
-        try {
-            tx = session.beginTransaction();
-            Usuario user = (Usuario) session.get(Usuario.class, id);
-            session.delete(user);
-            tx.commit();
-        } catch (HibernateException e) {
-            if (tx != null) {
-                tx.rollback();
-            }
-        } finally {
-            session.close();
-        }
-    }
-
     private Usuario getUser(String username) {
-        Usuario u = null;
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction tx = null;
-        try {
-            tx = session.beginTransaction();
-            Query query = session.createQuery("FROM Usuario a where a.username = :user");
-            query.setParameter("user", username);
-            List<Usuario> list = query.list();
-            if (list.isEmpty()) {
-                return null;
+        try (Connection connection = DbSingleton.getConnection(); PreparedStatement ps = connection.prepareStatement("select * from v1_2.usuario where username=?")) {
+            ps.setString(1, username);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    return new Usuario(rs.getString(1), rs.getString(2), rs.getBoolean(3));
+                }
             }
-            u = list.get(0);
-            tx.commit();
-        } catch (HibernateException e) {
-            if (tx != null) {
-                tx.rollback();
-            }
-        } finally {
-            session.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioService.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return u;
+        return null;
     }
 
-    public boolean login(String username, String password) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+    public boolean login(String username, String password) throws UnsupportedEncodingException, NoSuchAlgorithmException, SQLException {
         Usuario user = getUser(username);
         if (user == null) {
             return false;

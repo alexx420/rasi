@@ -7,7 +7,6 @@ package com.siap.rasi.pojo;
 public class UsuarioSolicitud implements java.io.Serializable {
 
     private Long id;
-    private Usuario usuario;
     private String nombres;
     private String apellidoPaterno;
     private String apellidoMaterno;
@@ -20,11 +19,12 @@ public class UsuarioSolicitud implements java.io.Serializable {
     private String telefonoFijo;
     private String institucion;
     private String entidadFederativa;
+    private String username;
 
     public UsuarioSolicitud() {
     }
 
-    public UsuarioSolicitud(Long id, String nombres, String apellidoPaterno, String apellidoMaterno, String sexo, String ocupacion, String pais, String correo, String telefonoCelular, String telefonoFijo, String institucion) {
+    public UsuarioSolicitud(Long id, String nombres, String apellidoPaterno, String apellidoMaterno, String sexo, String ocupacion, String pais, String correo, String telefonoCelular, String telefonoFijo, String institucion, String entidadFederativa) {
         this.id = id;
         this.nombres = nombres;
         this.apellidoPaterno = apellidoPaterno;
@@ -36,11 +36,12 @@ public class UsuarioSolicitud implements java.io.Serializable {
         this.telefonoCelular = telefonoCelular;
         this.telefonoFijo = telefonoFijo;
         this.institucion = institucion;
+        this.entidadFederativa = entidadFederativa;
     }
 
-    public UsuarioSolicitud(Long id, Usuario usuario, String nombres, String apellidoPaterno, String apellidoMaterno, String sexo, String ocupacion, String pais, String correo, String telefonoCelular, String telefonoFijo, String institucion, String entidadFederativa, boolean recibirInformacion) {
+    public UsuarioSolicitud(Long id, String nombres, String apellidoPaterno, String apellidoMaterno, String sexo, String ocupacion, String pais, String correo, String telefonoCelular, String telefonoFijo, String institucion, String entidadFederativa, String username, boolean recibirInformacion) {
         this.id = id;
-        this.usuario = usuario;
+        this.username = username;
         this.nombres = nombres;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
@@ -63,12 +64,12 @@ public class UsuarioSolicitud implements java.io.Serializable {
         this.id = id;
     }
 
-    public Usuario getUsuario() {
-        return this.usuario;
+    public String getUsername() {
+        return this.username;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getNombres() {

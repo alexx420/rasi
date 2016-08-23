@@ -48,4 +48,9 @@ public class Usuario implements java.io.Serializable {
         this.activo = activo;
     }
 
+    @Override
+    public String toString() {
+        return this.username + "," + this.password + "," + this.activo; //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

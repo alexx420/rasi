@@ -8,34 +8,53 @@ import java.util.Date;
  */
 public class SolicitudInformacion implements java.io.Serializable {
 
-    private long id;
-    private Usuario usuario;
-    private UsuarioSolicitud usuarioSolicitud;
+    private Long id;
     private Date fecha;
     private String tipoInformacion;
     private String especifiqueInformacion;
     private String viaSolicitud;
     private Date fechaAtencion;
     private String atendioSolicitud;
-
+    private String username;
+    private Long idUsuarioSolicitud;
 
     public SolicitudInformacion() {
     }
 
-    public SolicitudInformacion(long id, Usuario usuario, UsuarioSolicitud usuarioSolicitud, Date fecha, String tipoInformacion, String especifiqueInformacion, String viaSolicitud) {
-        this.id = id;
-        this.usuario = usuario;
-        this.usuarioSolicitud = usuarioSolicitud;
+    /**
+     *
+     * @param fecha
+     * @param tipoInformacion
+     * @param especifiqueInformacion
+     * @param viaSolicitud
+     * @param idUsuarioSolicitud
+     * @param username
+     */
+    public SolicitudInformacion(Date fecha, String tipoInformacion, String especifiqueInformacion, String viaSolicitud, long idUsuarioSolicitud, String username) {
+        this.username = username;
+        this.idUsuarioSolicitud = idUsuarioSolicitud;
         this.fecha = fecha;
         this.tipoInformacion = tipoInformacion;
         this.especifiqueInformacion = especifiqueInformacion;
         this.viaSolicitud = viaSolicitud;
     }
 
-    public SolicitudInformacion(long id, Usuario usuario, UsuarioSolicitud usuarioSolicitud, Date fecha, String tipoInformacion, String especifiqueInformacion, String viaSolicitud, Date fechaAtencion, String atendioSolicitud) {
+    /**
+     *
+     * @param id
+     * @param fecha
+     * @param tipoInformacion
+     * @param especifiqueInformacion
+     * @param viaSolicitud
+     * @param fechaAtencion
+     * @param atendioSolicitud
+     * @param idUsuarioSolicitud
+     * @param username
+     */
+    public SolicitudInformacion(Long id, Date fecha, String tipoInformacion, String especifiqueInformacion, String viaSolicitud, Date fechaAtencion, String atendioSolicitud, long idUsuarioSolicitud, String username) {
         this.id = id;
-        this.usuario = usuario;
-        this.usuarioSolicitud = usuarioSolicitud;
+        this.username = username;
+        this.idUsuarioSolicitud = idUsuarioSolicitud;
         this.fecha = fecha;
         this.tipoInformacion = tipoInformacion;
         this.especifiqueInformacion = especifiqueInformacion;
@@ -44,28 +63,28 @@ public class SolicitudInformacion implements java.io.Serializable {
         this.atendioSolicitud = atendioSolicitud;
     }
 
-    public long getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Usuario getUsuario() {
-        return this.usuario;
+    public String getUsername() {
+        return this.username;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public UsuarioSolicitud getUsuarioSolicitud() {
-        return this.usuarioSolicitud;
+    public Long getIdUsuarioSolicitud() {
+        return this.idUsuarioSolicitud;
     }
 
-    public void setUsuarioSolicitud(UsuarioSolicitud usuarioSolicitud) {
-        this.usuarioSolicitud = usuarioSolicitud;
+    public void setUsuarioSolicitud(Long idUsuarioSolicitud) {
+        this.idUsuarioSolicitud = idUsuarioSolicitud;
     }
 
     public Date getFecha() {
@@ -114,6 +133,19 @@ public class SolicitudInformacion implements java.io.Serializable {
 
     public void setAtendioSolicitud(String atendioSolicitud) {
         this.atendioSolicitud = atendioSolicitud;
+    }
+
+    @Override
+    public String toString() {
+        return this.id
+                + "," + this.fecha
+                + "," + this.tipoInformacion
+                + "," + this.especifiqueInformacion
+                + "," + this.viaSolicitud
+                + "," + this.fechaAtencion
+                + "," + this.atendioSolicitud
+                + "," + this.idUsuarioSolicitud
+                + "," + this.username; //To change body of generated methods, choose Tools | Templates.
     }
 
 }

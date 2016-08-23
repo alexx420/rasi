@@ -13,7 +13,6 @@ import com.siap.rasi.pojo.EntidadFederativa;
 import com.siap.rasi.pojo.Ocupacion;
 import com.siap.rasi.pojo.Pais;
 import com.siap.rasi.pojo.UsuarioSolicitud;
-import com.siap.rasi.service.SolicitudInformacionService;
 import com.siap.rasi.service.UsuarioSolicitudService;
 import java.io.Serializable;
 import java.util.List;
@@ -39,12 +38,22 @@ public class UsuarioSolicitudView implements Serializable {
 
     @ManagedProperty("#{solicitanteService}")
     private UsuarioSolicitudService service;
+    @ManagedProperty("#{solicitudView}")
+    private SolicitudInformacionView siv;
     private String username;
 
     @PostConstruct
     public void init() {
         rows = service.listRows();
         username = SessionUtils.getUserName();
+    }
+
+    public SolicitudInformacionView getSiv() {
+        return siv;
+    }
+
+    public void setSiv(SolicitudInformacionView siv) {
+        this.siv = siv;
     }
 
     public String getUsername() {
@@ -100,11 +109,10 @@ public class UsuarioSolicitudView implements Serializable {
     }
 
     public void onRowSelect(SelectEvent event) {
-        Long id = ((UsuarioSolicitud) event.getObject()).getId();
-        SolicitudInformacionView siv = new SolicitudInformacionView();
-        SolicitudInformacionService sis = new SolicitudInformacionService();
-        siv.setRows(sis.listRows(id));
-        FacesMessage msg = new FacesMessage("Car Selected", ((UsuarioSolicitud) event.getObject()).getId().toString());
+        UsuarioSolicitud us = (UsuarioSolicitud) event.getObject();
+        siv.setRows(siv.getService().listRows(us.getId()));
+        siv.setUs(us);//setea el solicitante seleccionado, para poder usarlo en la vista solicitud info
+        FacesMessage msg = new FacesMessage("Mostrando solicitudes", "usuario ID: " + ((UsuarioSolicitud) event.getObject()).getId().toString());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
@@ -128,7 +136,7 @@ public class UsuarioSolicitudView implements Serializable {
         UsuarioSolicitud si = (UsuarioSolicitud) event.getObject();
         try {
             String sessionUserName = SessionUtils.getUserName();
-            String userNameToDelete = si.getUsuario().getUsername();
+            String userNameToDelete = si.getUsername();
             if (userNameToDelete.equals(sessionUserName)) {
                 service.updateRow(si);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Edición correcta", "ID: " + String.valueOf(si.getId())));
@@ -146,9 +154,9 @@ public class UsuarioSolicitudView implements Serializable {
     }
 
     public void addRow() {
-        UsuarioSolicitud car = service.addRow();
-        rows.add(0, car);
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro agregado", "ID: " + car.getId()));
+        UsuarioSolicitud us = service.addRow();
+        rows.add(0, us);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro agregado", "ID: " + us.getId()));
     }
 
     public void deleteSelected() {
@@ -159,7 +167,7 @@ public class UsuarioSolicitudView implements Serializable {
             String sessionUserName = SessionUtils.getUserName();
             for (UsuarioSolicitud row : selectedRows) {
                 try {
-                    String userNameToDelete = row.getUsuario().getUsername();
+                    String userNameToDelete = row.getUsername();
                     if (userNameToDelete.equals(sessionUserName)) {
                         service.deleteRow(row.getId());
                         rows.remove(row);
@@ -177,7 +185,7 @@ public class UsuarioSolicitudView implements Serializable {
     }
 
     public void deleteRow() {
-        String userNameToDelete = selectedRow.getUsuario().getUsername();
+        String userNameToDelete = selectedRow.getUsername();
         String sessionUserName = SessionUtils.getUserName();
         if (!userNameToDelete.equals(sessionUserName)) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Solo el usuario que capturó el registro puede eliminarlo"));
