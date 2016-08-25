@@ -112,7 +112,7 @@ public class UsuarioSolicitudView implements Serializable {
         UsuarioSolicitud us = (UsuarioSolicitud) event.getObject();
         siv.setRows(siv.getService().listRows(us.getId()));
         siv.setUs(us);//setea el solicitante seleccionado, para poder usarlo en la vista solicitud info
-        FacesMessage msg = new FacesMessage("Mostrando solicitudes", "usuario ID: " + ((UsuarioSolicitud) event.getObject()).getId().toString());
+        FacesMessage msg = new FacesMessage("Mostrando solicitudes de", "ID: " + us.getId() + ", " + us.getNombres());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
@@ -133,15 +133,15 @@ public class UsuarioSolicitudView implements Serializable {
     }
 
     public void onRowEdit(RowEditEvent event) {
-        UsuarioSolicitud si = (UsuarioSolicitud) event.getObject();
+        UsuarioSolicitud us = (UsuarioSolicitud) event.getObject();
         try {
             String sessionUserName = SessionUtils.getUserName();
-            String userNameToDelete = si.getUsername();
+            String userNameToDelete = us.getUsername();
             if (userNameToDelete.equals(sessionUserName)) {
-                service.updateRow(si);
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Edición correcta", "ID: " + String.valueOf(si.getId())));
+                service.updateRow(us);
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Edición correcta", "ID: " + String.valueOf(us.getId())));
             } else {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Solo el usuario que capturó el registro puede editarlo"));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Solo el usuario '" + us.getUsername() + "' puede editar el registro con ID: " + us.getId()));
             }
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
@@ -156,7 +156,7 @@ public class UsuarioSolicitudView implements Serializable {
     public void addRow() {
         UsuarioSolicitud us = service.addRow();
         rows.add(0, us);
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro agregado", "ID: " + us.getId()));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario agregado", "ID: " + us.getId()));
     }
 
     public void deleteSelected() {
@@ -173,14 +173,14 @@ public class UsuarioSolicitudView implements Serializable {
                         rows.remove(row);
                         r++;
                     } else {
-                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Solo el usuario que capturó el registro puede eliminarlo"));
+                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Solo el usuario '" + row.getUsername() + "' puede eliminar el registro con ID: " + row.getId()));
                     }
                 } catch (Exception e) {
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
                 }
             }
             selectedRows.clear();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Registros eliminados", String.valueOf(r)));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuarios eliminados", String.valueOf(r)));
         }
     }
 
