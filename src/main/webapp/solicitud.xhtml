@@ -138,7 +138,7 @@ and open the template in the editor.
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{solicitante.pais}" /></f:facet>
                                         <f:facet name="input">
-                                            <h:selectOneMenu value="#{solicitante.entidadFederativa}" >
+                                            <h:selectOneMenu value="#{solicitante.pais}" >
                                                 <f:selectItem itemLabel="Selecciona uno" itemValue="" />
                                                 <f:selectItems value="#{solicitanteView.paises}" var="item" itemLabel="#{item.nombre}" itemValue="#{item.nombre}" />
                                             </h:selectOneMenu>

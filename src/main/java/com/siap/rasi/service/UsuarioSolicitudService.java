@@ -196,7 +196,7 @@ public class UsuarioSolicitudService {
 
     public UsuarioSolicitud addRow() {
 
-        UsuarioSolicitud us = new UsuarioSolicitud(0L, "", "", "", "Masculino", "", "", "", "", "", "", "");
+        UsuarioSolicitud us = new UsuarioSolicitud(0L, "", "", "", "Masculino", "", "MX México (Estados Unidos Mexicanos)", "", "", "", "", "");
         us.setUsername(SessionUtils.getUserName());
         try (Connection conn = DbSingleton.getConnection(); Statement stmt = conn.createStatement();) {
             String query = "insert into v1_2.usuarioSolicitud (nombres,apellidoPaterno,"
@@ -223,24 +223,20 @@ public class UsuarioSolicitudService {
         return us;
     }
 
-    public void updateRow(UsuarioSolicitud us) {
-        Connection conn = null;
-        PreparedStatement ps = null;
-        try {
-            conn = DbSingleton.getConnection();
-            ps = conn.prepareStatement("update v1_2.usuarioSolicitud set nombres=?,"
-                    + "apellidoPaterno=?,"
-                    + "apellidoMaterno=?,"
-                    + "sexo=?,"
-                    + "ocupacion=?,"
-                    + "pais=?,"
-                    + "correo=?,"
-                    + "telefonoCelular=?,"
-                    + "telefonoFijo=?,"
-                    + "institucion=?,"
-                    + "entidadFederativa=?,"
-                    + "username=?,"
-                    + "recibirInformacion=? where id = ?");
+    public void updateRow(UsuarioSolicitud us) throws SQLException {
+        try (Connection conn = DbSingleton.getConnection(); PreparedStatement ps = conn.prepareStatement("update v1_2.usuarioSolicitud set nombres=?,"
+                + "apellidoPaterno=?,"
+                + "apellidoMaterno=?,"
+                + "sexo=?,"
+                + "ocupacion=?,"
+                + "pais=?,"
+                + "correo=?,"
+                + "telefonoCelular=?,"
+                + "telefonoFijo=?,"
+                + "institucion=?,"
+                + "entidadFederativa=?,"
+                + "username=?,"
+                + "recibirInformacion=? where id = ?");) {
             ps.setLong(14, us.getId());
             ps.setString(1, us.getNombres());
             ps.setString(2, us.getApellidoPaterno());
@@ -260,21 +256,7 @@ public class UsuarioSolicitudService {
             System.out.println(i);
         } catch (SQLException ex) {
             Logger.getLogger(DbSingleton.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            if (ps != null) {
-                try {
-                    ps.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(UsuarioSolicitudService.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(UsuarioSolicitudService.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+            throw new SQLException(ex);
         }
     }
 
