@@ -228,7 +228,7 @@ public class UsuarioSolicitudService {
         PreparedStatement ps = null;
         try {
             conn = DbSingleton.getConnection();
-            ps = conn.prepareStatement("update v1_2.UsuarioSolicitud set nombres=?,"
+            ps = conn.prepareStatement("update v1_2.usuarioSolicitud set nombres=?,"
                     + "apellidoPaterno=?,"
                     + "apellidoMaterno=?,"
                     + "sexo=?,"
@@ -239,8 +239,8 @@ public class UsuarioSolicitudService {
                     + "telefonoFijo=?,"
                     + "institucion=?,"
                     + "entidadFederativa=?,"
-                    + "recibirInformacion=?,"
-                    + "username=? where id = ?");
+                    + "username=?,"
+                    + "recibirInformacion=? where id = ?");
             ps.setLong(14, us.getId());
             ps.setString(1, us.getNombres());
             ps.setString(2, us.getApellidoPaterno());
@@ -278,33 +278,15 @@ public class UsuarioSolicitudService {
         }
     }
 
-    public void deleteRow(Long id) {
-        Connection conn = null;
-        PreparedStatement ps = null;
-        try {
-            conn = DbSingleton.getConnection();
-            ps = conn.prepareStatement("delete from v1_2.UsuarioSolicitud where id = ?");
+    public void deleteRow(Long id) throws SQLException {
+        try (Connection conn = DbSingleton.getConnection(); PreparedStatement ps = conn.prepareStatement("delete from v1_2.usuarioSolicitud where id = ?");) {
             ps.setLong(1, id);
             int i = ps.executeUpdate();
             System.out.println("delete");
             System.out.println(i);
         } catch (SQLException ex) {
             Logger.getLogger(DbSingleton.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            if (ps != null) {
-                try {
-                    ps.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(UsuarioSolicitudService.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(UsuarioSolicitudService.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+            throw new SQLException(ex);
         }
     }
 }

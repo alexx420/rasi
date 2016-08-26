@@ -16,7 +16,10 @@ import com.siap.rasi.pojo.UsuarioSolicitud;
 import com.siap.rasi.pojo.ViaSolicitud;
 import com.siap.rasi.service.SolicitudInformacionService;
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -150,9 +153,14 @@ public class SolicitudInformacionView implements Serializable {
 
     public void addRow() {
         if (us != null) {
-            SolicitudInformacion si = service.addRow(us);
-            rows.add(0, si);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Solicitud agregada", "ID: " + si.getId()));
+            SolicitudInformacion si;
+            try {
+                si = service.addRow(us);
+                rows.add(0, si);
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Solicitud agregada", "ID: " + si.getId()));
+            } catch (SQLException ex) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", ex.getClass().getName()));
+            }
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Debes seleccionar un usuario"));
         }

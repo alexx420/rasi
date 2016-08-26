@@ -202,45 +202,17 @@ public class SolicitudInformacionService {
 
     public List<Direccion> getDirecciones() {
         List<Direccion> list = new ArrayList<>();
-        Connection conn = null;
-        ResultSet rs = null;
-        PreparedStatement ps = null;
-        try {
-            conn = DbSingleton.getConnection();
-            ps = conn.prepareStatement("select * from v1_2.Direccion ORDER BY nombre");
-            rs = ps.executeQuery();
+        try (Connection conn = DbSingleton.getConnection(); PreparedStatement ps = conn.prepareStatement("select * from v1_2.Direccion ORDER BY nombre"); ResultSet rs = ps.executeQuery();) {
             while (rs.next()) {
                 list.add(new Direccion(rs.getLong(1), rs.getString(2), rs.getString(3)));
             }
         } catch (SQLException ex) {
             Logger.getLogger(DbSingleton.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(SolicitudInformacionService.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            if (ps != null) {
-                try {
-                    ps.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(SolicitudInformacionService.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(SolicitudInformacionService.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
         }
         return list;
     }
 
-    public SolicitudInformacion addRow(UsuarioSolicitud us) {
+    public SolicitudInformacion addRow(UsuarioSolicitud us) throws SQLException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-dd");
         SolicitudInformacion si = new SolicitudInformacion(Calendar.getInstance().getTime(), "", "", "", us.getId(), SessionUtils.getUserName());
         try (Connection conn = DbSingleton.getConnection(); Statement stmt = conn.createStatement();) {
@@ -262,6 +234,7 @@ public class SolicitudInformacionService {
             }
         } catch (SQLException ex) {
             Logger.getLogger(DbSingleton.class.getName()).log(Level.SEVERE, null, ex);
+            throw new SQLException(ex);
         }
         return si;
     }
@@ -295,33 +268,15 @@ public class SolicitudInformacionService {
         }
     }
 
-    public void deleteRow(Long id) {
-        Connection conn = null;
-        PreparedStatement ps = null;
-        try {
-            conn = DbSingleton.getConnection();
-            ps = conn.prepareStatement("delete from v1_2.SolicitudInformacion where id = ?");
+    public void deleteRow(Long id) throws SQLException {
+        try (Connection conn = DbSingleton.getConnection(); PreparedStatement ps = conn.prepareStatement("delete from v1_2.SolicitudInformacion where id = ?");) {
             ps.setLong(1, id);
             int i = ps.executeUpdate();
             System.out.println("delete");
             System.out.println(i);
         } catch (SQLException ex) {
             Logger.getLogger(DbSingleton.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            if (ps != null) {
-                try {
-                    ps.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(SolicitudInformacionService.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(SolicitudInformacionService.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+            throw new SQLException(ex);
         }
     }
 
