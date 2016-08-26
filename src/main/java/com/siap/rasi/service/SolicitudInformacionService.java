@@ -5,6 +5,7 @@
  */
 package com.siap.rasi.service;
 
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 import com.siap.rasi.controller.SessionUtils;
 import com.siap.rasi.pojo.Direccion;
 import com.siap.rasi.pojo.SolicitudInformacion;
@@ -265,19 +266,17 @@ public class SolicitudInformacionService {
         return si;
     }
 
-    public void updateRow(SolicitudInformacion si) {
-        Connection conn = null;
-        PreparedStatement ps = null;
-        try {
-            conn = DbSingleton.getConnection();
-            ps = conn.prepareStatement("update SolicitudInformacion set fecha=?,"
-                    + "tipoInformacion=?,"
-                    + "especifiqueInformacion=?,"
-                    + "viaSolicitud=?,"
-                    + "fechaAtencion=?,"
-                    + "atencioSolicitud=?,"
-                    + "idUsuarioSolicitud=?,"
-                    + "username=? where id = ?");
+    public void updateRow(SolicitudInformacion si) throws SQLException {
+
+        try (Connection conn = DbSingleton.getConnection(); PreparedStatement ps
+                = conn.prepareStatement("update v1_2.solicitudInformacion set fecha=?,"
+                        + "tipoInformacion=?,"
+                        + "especifiqueInformacion=?,"
+                        + "viaSolicitud=?,"
+                        + "fechaAtencion=?,"
+                        + "atendioSolicitud=?,"
+                        + "idUsuarioSolicitud=?,"
+                        + "username=? where id = ?");) {
             ps.setLong(9, si.getId());
             ps.setDate(1, Tool.toSqlDate(si.getFecha()));
             ps.setString(2, si.getTipoInformacion());
@@ -291,22 +290,8 @@ public class SolicitudInformacionService {
             System.out.println("update");
             System.out.println(i);
         } catch (SQLException ex) {
-            Logger.getLogger(DbSingleton.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            if (ps != null) {
-                try {
-                    ps.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(SolicitudInformacionService.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(SolicitudInformacionService.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+            Logger.getLogger(SolicitudInformacionService.class.getName()).log(Level.SEVERE, null, ex);
+            throw new SQLException(ex);
         }
     }
 

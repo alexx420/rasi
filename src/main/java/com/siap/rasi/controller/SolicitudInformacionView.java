@@ -121,7 +121,7 @@ public class SolicitudInformacionView implements Serializable {
                 service.updateRow(currentCar);
                 msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Edición correcta", "Anterior: " + oldValue + ", Nuevo:" + newValue);
             } catch (Exception e) {
-                msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falló la edición", e.getMessage());
+                msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Falló la edición", e.getClass().getName());
             }
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
@@ -139,7 +139,7 @@ public class SolicitudInformacionView implements Serializable {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Solo el usuario '" + si.getUsername() + "' puede editar el registro con ID: " + si.getId()));
             }
         } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getClass().getName()));
         }
     }
 
@@ -175,7 +175,7 @@ public class SolicitudInformacionView implements Serializable {
                         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Solo el usuario '" + row.getUsername() + "' puede eliminar el registro con ID: " + row.getId()));
                     }
                 } catch (Exception e) {
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getClass().getName()));
                 }
             }
             selectedRows.clear();
@@ -195,7 +195,7 @@ public class SolicitudInformacionView implements Serializable {
         try {
             service.deleteRow(selectedRow.getId());
         } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getClass().getName()));
         }
         rows.remove(selectedRow);
         selectedRow = null;
