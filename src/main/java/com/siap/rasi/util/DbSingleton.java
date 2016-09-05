@@ -17,8 +17,8 @@ import java.util.logging.Logger;
  */
 public class DbSingleton {
 
-    private static final String connectionUrl = "jdbc:sqlserver://localhost\\v1_2:1433;"
-            + "databaseName=rasi;user=sa;password=Password123";
+    private static final String connectionUrl = "jdbc:sqlserver://10.11.2.32\\v1_2;"
+            + "databaseName=rasi;user=sa;password=Winter1234";
     private static Connection connection;
 
     public static Connection getConnection() {
@@ -30,6 +30,12 @@ public class DbSingleton {
             Logger.getLogger(DbSingleton.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+    
+    public static void main(String[] args) throws SQLException {
+        Connection c = getConnection();
+        boolean valid = c.isValid(0);
+        System.out.println(valid);
     }
 
 }
