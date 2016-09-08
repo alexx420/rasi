@@ -4,7 +4,7 @@
 
     <groupId>com.siap</groupId>
     <artifactId>rasi</artifactId>
-    <version>1.2-SNAPSHOT</version>
+    <version>1.3</version>
     <packaging>war</packaging>
 
     <name>rasi</name>
