@@ -17,15 +17,15 @@ import com.siap.rasi.pojo.ViaSolicitud;
 import com.siap.rasi.service.SolicitudInformacionService;
 import java.io.Serializable;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
 
@@ -40,9 +40,82 @@ public class SolicitudInformacionView implements Serializable {
     private SolicitudInformacion selectedRow;
     private UsuarioSolicitud us;
 
+    private Long id;
+    private Date fecha;
+    private String tipoInformacion;
+    private String especifiqueInformacion;
+    private String viaSolicitud;
+    private Date fechaAtencion;
+    private String atendioSolicitud;
+    private String username;
+    private Long idUsuarioSolicitud;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
+    public String getTipoInformacion() {
+        return tipoInformacion;
+    }
+
+    public void setTipoInformacion(String tipoInformacion) {
+        this.tipoInformacion = tipoInformacion;
+    }
+
+    public String getEspecifiqueInformacion() {
+        return especifiqueInformacion;
+    }
+
+    public void setEspecifiqueInformacion(String especifiqueInformacion) {
+        this.especifiqueInformacion = especifiqueInformacion;
+    }
+
+    public String getViaSolicitud() {
+        return viaSolicitud;
+    }
+
+    public void setViaSolicitud(String viaSolicitud) {
+        this.viaSolicitud = viaSolicitud;
+    }
+
+    public Date getFechaAtencion() {
+        return fechaAtencion;
+    }
+
+    public void setFechaAtencion(Date fechaAtencion) {
+        this.fechaAtencion = fechaAtencion;
+    }
+
+    public String getAtendioSolicitud() {
+        return atendioSolicitud;
+    }
+
+    public void setAtendioSolicitud(String atendioSolicitud) {
+        this.atendioSolicitud = atendioSolicitud;
+    }
+
+    public Long getIdUsuarioSolicitud() {
+        return idUsuarioSolicitud;
+    }
+
+    public void setIdUsuarioSolicitud(Long idUsuarioSolicitud) {
+        this.idUsuarioSolicitud = idUsuarioSolicitud;
+    }
+
     @ManagedProperty("#{solicitudService}")
     private SolicitudInformacionService service;
-    private String username;
 
     @PostConstruct
     public void init() {
@@ -153,9 +226,10 @@ public class SolicitudInformacionView implements Serializable {
 
     public void addRow() {
         if (us != null) {
-            SolicitudInformacion si;
+            RequestContext.getCurrentInstance().execute("PF('dlgAddSolicitud').show()");
+            SolicitudInformacion si = new SolicitudInformacion(fecha, tipoInformacion, especifiqueInformacion, viaSolicitud, us.getId(), username);
             try {
-                si = service.addRow(us);
+                si = service.addRow(si);
                 rows.add(0, si);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Solicitud agregada", "ID: " + si.getId()));
             } catch (SQLException ex) {

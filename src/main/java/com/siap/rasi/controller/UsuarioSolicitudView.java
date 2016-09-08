@@ -36,11 +36,129 @@ public class UsuarioSolicitudView implements Serializable {
     private List<UsuarioSolicitud> filteredRows;
     private UsuarioSolicitud selectedRow;
 
+    private Long id;
+    private String nombres;
+    private String apellidoPaterno;
+    private String apellidoMaterno;
+    private String sexo;
+    private String ocupacion;
+    private String pais;
+    private String correo;
+    private boolean recibirInformacion;
+    private String telefonoCelular;
+    private String telefonoFijo;
+    private String institucion;
+    private String entidadFederativa;
+    private String username;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNombres() {
+        return nombres;
+    }
+
+    public void setNombres(String nombres) {
+        this.nombres = nombres;
+    }
+
+    public String getApellidoPaterno() {
+        return apellidoPaterno;
+    }
+
+    public void setApellidoPaterno(String apellidoPaterno) {
+        this.apellidoPaterno = apellidoPaterno;
+    }
+
+    public String getApellidoMaterno() {
+        return apellidoMaterno;
+    }
+
+    public void setApellidoMaterno(String apellidoMaterno) {
+        this.apellidoMaterno = apellidoMaterno;
+    }
+
+    public String getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
+    }
+
+    public String getOcupacion() {
+        return ocupacion;
+    }
+
+    public void setOcupacion(String ocupacion) {
+        this.ocupacion = ocupacion;
+    }
+
+    public String getPais() {
+        return pais;
+    }
+
+    public void setPais(String pais) {
+        this.pais = pais;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
+    public boolean isRecibirInformacion() {
+        return recibirInformacion;
+    }
+
+    public void setRecibirInformacion(boolean recibirInformacion) {
+        this.recibirInformacion = recibirInformacion;
+    }
+
+    public String getTelefonoCelular() {
+        return telefonoCelular;
+    }
+
+    public void setTelefonoCelular(String telefonoCelular) {
+        this.telefonoCelular = telefonoCelular;
+    }
+
+    public String getTelefonoFijo() {
+        return telefonoFijo;
+    }
+
+    public void setTelefonoFijo(String telefonoFijo) {
+        this.telefonoFijo = telefonoFijo;
+    }
+
+    public String getInstitucion() {
+        return institucion;
+    }
+
+    public void setInstitucion(String institucion) {
+        this.institucion = institucion;
+    }
+
+    public String getEntidadFederativa() {
+        return entidadFederativa;
+    }
+
+    public void setEntidadFederativa(String entidadFederativa) {
+        this.entidadFederativa = entidadFederativa;
+    }
+
     @ManagedProperty("#{solicitanteService}")
     private UsuarioSolicitudService service;
     @ManagedProperty("#{solicitudView}")
     private SolicitudInformacionView siv;
-    private String username;
 
     @PostConstruct
     public void init() {
@@ -144,7 +262,7 @@ public class UsuarioSolicitudView implements Serializable {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Solo el usuario '" + us.getUsername() + "' puede editar el registro con ID: " + us.getId()));
             }
         } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",e.getClass().getName()));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getClass().getName()));
         }
     }
 
@@ -154,7 +272,9 @@ public class UsuarioSolicitudView implements Serializable {
     }
 
     public void addRow() {
-        UsuarioSolicitud us = service.addRow();
+        UsuarioSolicitud us = new UsuarioSolicitud(0L, nombres, apellidoPaterno,
+                apellidoMaterno, sexo, ocupacion, pais, entidadFederativa, institucion, telefonoFijo, telefonoCelular, correo, recibirInformacion);
+        us = service.addRow(us);
         rows.add(0, us);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario agregado", "ID: " + us.getId()));
     }
@@ -192,7 +312,7 @@ public class UsuarioSolicitudView implements Serializable {
             return;
         }
 
-        long id = selectedRow.getId();
+        long idRow = selectedRow.getId();
         try {
             service.deleteRow(selectedRow.getId());
         } catch (Exception e) {
@@ -200,6 +320,6 @@ public class UsuarioSolicitudView implements Serializable {
         }
         rows.remove(selectedRow);
         selectedRow = null;
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro eliminado", "ID: " + String.valueOf(id)));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro eliminado", "ID: " + String.valueOf(idRow)));
     }
 }

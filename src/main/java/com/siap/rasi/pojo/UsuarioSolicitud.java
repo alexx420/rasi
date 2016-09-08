@@ -24,21 +24,6 @@ public class UsuarioSolicitud implements java.io.Serializable {
     public UsuarioSolicitud() {
     }
 
-    public UsuarioSolicitud(Long id, String nombres, String apellidoPaterno, String apellidoMaterno, String sexo, String ocupacion, String pais, String correo, String telefonoCelular, String telefonoFijo, String institucion, String entidadFederativa) {
-        this.id = id;
-        this.nombres = nombres;
-        this.apellidoPaterno = apellidoPaterno;
-        this.apellidoMaterno = apellidoMaterno;
-        this.sexo = sexo;
-        this.ocupacion = ocupacion;
-        this.pais = pais;
-        this.correo = correo;
-        this.telefonoCelular = telefonoCelular;
-        this.telefonoFijo = telefonoFijo;
-        this.institucion = institucion;
-        this.entidadFederativa = entidadFederativa;
-    }
-
     public UsuarioSolicitud(Long id, String nombres, String apellidoPaterno, String apellidoMaterno, String sexo, String ocupacion, String pais, String correo, String telefonoCelular, String telefonoFijo, String institucion, String entidadFederativa, String username, boolean recibirInformacion) {
         this.id = id;
         this.username = username;
@@ -53,6 +38,22 @@ public class UsuarioSolicitud implements java.io.Serializable {
         this.telefonoFijo = telefonoFijo;
         this.institucion = institucion;
         this.entidadFederativa = entidadFederativa;
+        this.recibirInformacion = recibirInformacion;
+    }
+
+    public UsuarioSolicitud(Long id, String nombres, String apellidoPaterno, String apellidoMaterno, String sexo, String ocupacion, String pais, String entidadFederativa, String institucion, String telefonoFijo, String telefonoCelular, String correo, boolean recibirInformacion) {
+        this.id = id;
+        this.nombres = nombres;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+        this.sexo = sexo;
+        this.ocupacion = ocupacion;
+        this.pais = pais;
+        this.entidadFederativa = entidadFederativa;
+        this.institucion = institucion;
+        this.telefonoFijo = telefonoFijo;
+        this.telefonoCelular = telefonoCelular;
+        this.correo = correo;
         this.recibirInformacion = recibirInformacion;
     }
 

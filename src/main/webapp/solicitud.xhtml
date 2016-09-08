@@ -88,7 +88,7 @@ and open the template in the editor.
                                       sortBy="#{solicitante.nombres}" headerText="Nombres" >
                                 <p:cellEditor>
                                     <f:facet name="output"><h:outputText value="#{solicitante.nombres}"/></f:facet>
-                                    <f:facet name="input"><p:inputText value="#{solicitante.nombres}" label="Nombres" /></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{solicitante.nombres}" label="Nombres" required="true" /></f:facet>
                                 </p:cellEditor>
                             </p:column>
                             <!--apellido paterno-->
@@ -210,8 +210,9 @@ and open the template in the editor.
                         </p:dataTable>
 
                         <!--agregar-->
-                        <p:commandButton  value="Agregar" icon="ui-icon-plusthick" actionListener="#{solicitanteView.addRow}" 
-                                          update="dtSolicitante :formContent:msgs"></p:commandButton>
+                        <p:commandButton  value="Agregar" icon="ui-icon-plusthick" 
+                                          onclick="PF('dlgAddUsuario').show();">
+                        </p:commandButton>
                         <!--eliminar-->
                         <p:commandButton value="Eliminar" icon="ui-icon-minus" 
                                          styleClass="ui-state-error" actionListener="#{solicitanteView.deleteSelected}" 
@@ -255,7 +256,7 @@ and open the template in the editor.
                                     </f:facet>
                                     <f:facet name="input">
                                         <p:calendar value="#{solicitud.fecha}" locale="es"
-                                                    label="Fecha"
+                                                    label="Fecha" required="true"
                                                     readonlyInput="true" pattern="dd/MM/yy"/>
                                     </f:facet>
                                 </p:cellEditor>
@@ -265,7 +266,7 @@ and open the template in the editor.
                                 <p:cellEditor>
                                     <f:facet name="output"><h:outputText value="#{solicitud.tipoInformacion}" /></f:facet>
                                     <f:facet name="input">
-                                        <h:selectOneMenu value="#{solicitud.tipoInformacion}" >
+                                        <h:selectOneMenu value="#{solicitud.tipoInformacion}" required="true" >
                                             <f:selectItem itemLabel="Selecciona uno" itemValue="" />
                                             <f:selectItems value="#{solicitudView.tiposInformacion}" var="item" itemLabel="#{item.nombre}" itemValue="#{item.nombre}" />
                                         </h:selectOneMenu>
@@ -276,7 +277,7 @@ and open the template in the editor.
                             <p:column width="250" filterBy="#{solicitud.especifiqueInformacion}" sortBy="#{solicitud.especifiqueInformacion}" headerText="Especifique información">
                                 <p:cellEditor>
                                     <f:facet name="output"><h:outputText value="#{solicitud.especifiqueInformacion}" /></f:facet>
-                                    <f:facet name="input"><p:inputText value="#{solicitud.especifiqueInformacion}"  label="Especifique información"/></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{solicitud.especifiqueInformacion}"  label="Especifique información" required="true"/></f:facet>
                                 </p:cellEditor>
                             </p:column>
                             <!--via solicitud select list-->
@@ -284,7 +285,7 @@ and open the template in the editor.
                                 <p:cellEditor>
                                     <f:facet name="output"><h:outputText value="#{solicitud.viaSolicitud}" /></f:facet>
                                     <f:facet name="input">
-                                        <h:selectOneMenu value="#{solicitud.viaSolicitud}" >
+                                        <h:selectOneMenu value="#{solicitud.viaSolicitud}" required="true">
                                             <f:selectItem itemLabel="Selecciona uno" itemValue="" />
                                             <f:selectItems value="#{solicitudView.viasSolicitud}" var="item" itemLabel="#{item.nombre}" itemValue="#{item.nombre}" />
                                         </h:selectOneMenu>
@@ -329,8 +330,10 @@ and open the template in the editor.
                         </p:dataTable>
 
                         <!--agregar-->
-                        <p:commandButton  value="Agregar" icon="ui-icon-plusthick" actionListener="#{solicitudView.addRow}" 
-                                          update="dtSolicitud :formContent:msgs"></p:commandButton>
+                        <p:commandButton  value="Agregar" icon="ui-icon-plusthick" 
+                                          actionListener="#{solicitudView.addRow}" 
+                                          update="dtSolicitud :formContent:msgs">
+                        </p:commandButton>
                         <!--eliminar-->
                         <p:commandButton value="Eliminar" icon="ui-icon-minus" 
                                          styleClass="ui-state-error" actionListener="#{solicitudView.deleteSelected}" 
@@ -349,8 +352,134 @@ and open the template in the editor.
                         window.location.replace(args.view);
                     }, 500);
                 }
+
+                function ajaxStatusHandler(xhr, status, args) {
+                    if (status === 'success') {
+                        PF('dlgAddSolicitud').show();
+                    }
+                }
                 //]]>
             </script>
         </h:body>
     </f:view>
+    <!--formulario usuario-->
+    <h:form>
+
+        <p:dialog header="Nuevo usuario" widgetVar="dlgAddUsuario" modal="true"
+                  closeOnEscape="true" >
+            <p:messages id="msgsFormUsuario" />
+            <h:panelGrid columns="4" cellpadding="5">
+                <!--nombres-->
+                <p:outputLabel for="nombres" value="Nombre(s)" />
+                <p:inputText id="nombres" value="#{solicitanteView.nombres}" required="true" label="Nombre(s)">
+                </p:inputText>
+                <!--apellido paterno-->
+                <p:outputLabel for="apellidoPaterno" value="Apellido paterno" />
+                <p:inputText id="apellidoPaterno" value="#{solicitanteView.apellidoPaterno}" label="Apellido paterno" required="true">
+                </p:inputText>
+                <!--apellido materno-->
+                <p:outputLabel for="apellidoMaterno" value="Apellido materno" />
+                <p:inputText id="apellidoMaterno" value="#{solicitanteView.apellidoMaterno}" label="Apellido materno" required="true">
+                </p:inputText>
+                <!--sexo-->
+                <p:outputLabel for="sexo" value="Sexo" />
+                <p:selectOneMenu id="sexo" value="#{solicitanteView.sexo}" required="true" autoWidth="false" >
+                    <f:selectItem itemLabel="Selecciona uno" itemValue="" />
+                    <f:selectItem itemLabel="Masculino" itemValue="Masculino" />
+                    <f:selectItem itemLabel="Femenino" itemValue="Femenino" />
+                </p:selectOneMenu>
+                <!--ocupacion select list-->
+                <p:outputLabel for="ocupacion" value="Ocupación" />
+                <p:selectOneMenu id="ocupacion" value="#{solicitanteView.ocupacion}" required="true" autoWidth="false" >
+                    <f:selectItem itemLabel="Selecciona uno" itemValue="" />
+                    <f:selectItems value="#{solicitanteView.ocupaciones}" var="item" itemLabel="#{item.nombre}" itemValue="#{item.nombre}" />
+                </p:selectOneMenu>
+                <!--país select list-->
+                <p:outputLabel for="pais" value="País" />
+                <p:selectOneMenu id="pais" value="#{solicitanteView.pais}" required="true" autoWidth="false" >
+                    <f:selectItem itemLabel="Selecciona uno" itemValue="" />
+                    <f:selectItems value="#{solicitanteView.paises}" var="item" itemLabel="#{item.nombre}" itemValue="#{item.nombre}" />
+                </p:selectOneMenu>
+                <!--entidad federativa select list-->
+                <p:outputLabel for="entidadFederativa" value="Entidad federativa" />
+                <p:selectOneMenu id="entidadFederativa" value="#{solicitanteView.entidadFederativa}" autoWidth="false" >
+                    <f:selectItem itemLabel="Selecciona uno" itemValue="" />
+                    <f:selectItems value="#{solicitanteView.entidades}" var="item" itemLabel="#{item.nombre}" itemValue="#{item.nombre}" />
+                </p:selectOneMenu>
+                <!--institucion text-->
+                <p:outputLabel for="institucion" value="Institución" />
+                <p:inputText id="institucion" value="#{solicitanteView.institucion}" label="Institución" required="true">
+                </p:inputText>
+                <!--telefono mask input-->
+                <p:outputLabel for="telefonoFijo" value="Teléfono fijo"/>
+                <p:inputMask id="telefonoFijo" value="#{solicitanteView.telefonoFijo}" mask="99 99 99 99 99? x99999" label="Teléfono fijo" required="true"/>
+                <!--celular mask input-->
+                <p:outputLabel for="telefonoCelular" value="Teléfono celular"/>
+                <p:inputMask id="telefonoCelular" value="#{solicitanteView.telefonoCelular}" mask="(999) 99 99 99 99 99" label="Teléfono celular" required="true"/>
+                <!--correo validacion-->
+                <p:outputLabel for="correo" value="Correo" />
+                <p:inputText id="correo" value="#{solicitanteView.correo}" label="Correo" required="true">
+                    <f:validator for="correo" validatorId="custom.emailValidator" />
+                </p:inputText>
+                <!--recibir informacion select list-->
+                <p:outputLabel for="recibirInformacion" value="Recibir información" />
+                <p:selectOneMenu id="recibirInformacion" value="#{solicitanteView.recibirInformacion}" required="true" autoWidth="false" >
+                    <f:selectItem itemLabel="Selecciona uno" itemValue="" />
+                    <f:selectItem itemLabel="Si" itemValue="true" />
+                    <f:selectItem itemLabel="No" itemValue="false" />
+                </p:selectOneMenu>
+            </h:panelGrid>
+            <f:facet name="footer">
+                <p:commandButton value="Guardar" update="msgsFormUsuario :formContent:acc:dtSolicitante"
+                                 actionListener="#{solicitanteView.addRow}" icon="ui-icon-check" 
+                                 oncomplete="if (!args.validationFailed){PF('dlgAddUsuario').hide()}"></p:commandButton>
+            </f:facet>
+        </p:dialog>  
+    </h:form>
+    <!--formulario solicitud-->
+    <h:form>
+        <p:dialog header="Nueva solicitud" widgetVar="dlgAddSolicitud" modal="true"
+                  closeOnEscape="true" >
+            <p:messages id="msgsFormSolicitud" />
+            <h:panelGrid columns="4" cellpadding="5">
+                <!--fecha calendar-->
+                <p:outputLabel for="fecha" value="Fecha" />
+                <p:calendar id="fecha" value="#{solicitudView.fecha}" locale="es"
+                            label="Fecha"
+                            readonlyInput="true" pattern="dd/MM/yy" required="true"/>
+                <!--tipo informacion select list-->
+                <p:outputLabel for="tipoInformacion" value="Tipo de Información" />
+                <p:selectOneMenu id="tipoInformacion" value="#{solicitudView.tipoInformacion}" required="true" autoWidth="false" >
+                    <f:selectItem itemLabel="Selecciona uno" itemValue="" />
+                    <f:selectItems value="#{solicitudView.tiposInformacion}" var="item" itemLabel="#{item.nombre}" itemValue="#{item.nombre}" />
+                </p:selectOneMenu>
+                <!--especifique info text-->
+                <p:outputLabel for="especifiqueInformacion" value="Especifique información" />
+                <p:inputText id="especifiqueInformacion" value="#{solicitudView.especifiqueInformacion}" label="Especifique información" required="true">
+                </p:inputText>
+                <!--via solicitud select list-->
+                <p:outputLabel for="viaSolicitud" value="Vía de solicitud" />
+                <p:selectOneMenu id="viaSolicitud" value="#{solicitudView.viaSolicitud}" autoWidth="false" required="true" >
+                    <f:selectItem itemLabel="Selecciona uno" itemValue="" />
+                    <f:selectItems value="#{solicitudView.viasSolicitud}" var="item" itemLabel="#{item.nombre}" itemValue="#{item.nombre}" />
+                </p:selectOneMenu>
+                <!--fecha atencion calendar-->
+                <p:outputLabel for="fechaAtencion" value="Fecha de atención" />
+                <p:calendar id="fechaAtencion" value="#{solicitudView.fechaAtencion}" locale="es"
+                            label="Fecha de atención" readonlyInput="true" pattern="dd/MM/yy" />
+                <!--atendio solicitud select list-->
+                <p:outputLabel for="atendioSolicitud" value="Atendió solicitud" />
+                <p:selectOneMenu id="atendioSolicitud" value="#{solicitudView.atendioSolicitud}" autoWidth="false" >
+                    <f:selectItem itemLabel="Selecciona uno" itemValue="" />
+                    <f:selectItems value="#{solicitudView.atendioSolicitud}" var="item" itemLabel="#{item.nombre}" itemValue="#{item.nombre}" />
+                </p:selectOneMenu>
+
+            </h:panelGrid>
+            <f:facet name="footer">
+                <p:commandButton value="Guardar" update="msgsFormSolicitud :formContent:acc:dtSolicitud"
+                                 actionListener="#{solicitudView.addRow}" icon="ui-icon-check" 
+                                 oncomplete="if (!args.validationFailed){PF('dlgAddSolicitud').hide()}"></p:commandButton>
+            </f:facet>
+        </p:dialog>  
+    </h:form>
 </html>

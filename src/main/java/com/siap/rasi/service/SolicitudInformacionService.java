@@ -212,9 +212,8 @@ public class SolicitudInformacionService {
         return list;
     }
 
-    public SolicitudInformacion addRow(UsuarioSolicitud us) throws SQLException {
+    public SolicitudInformacion addRow(SolicitudInformacion si) throws SQLException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-dd");
-        SolicitudInformacion si = new SolicitudInformacion(Calendar.getInstance().getTime(), "", "", "", us.getId(), SessionUtils.getUserName());
         try (Connection conn = DbSingleton.getConnection(); Statement stmt = conn.createStatement();) {
             String query = "insert into v1_2.solicitudInformacion (fecha,tipoInformacion,"
                     + "especifiqueInformacion,viaSolicitud,"

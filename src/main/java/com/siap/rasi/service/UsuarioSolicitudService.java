@@ -194,9 +194,9 @@ public class UsuarioSolicitudService {
         return list;
     }
 
-    public UsuarioSolicitud addRow() {
+    public UsuarioSolicitud addRow(UsuarioSolicitud us) {
 
-        UsuarioSolicitud us = new UsuarioSolicitud(0L, "", "", "", "Masculino", "", "MX México (Estados Unidos Mexicanos)", "", "", "", "", "");
+//        UsuarioSolicitud us = new UsuarioSolicitud(0L, "", "", "", "Masculino", "", "MX México (Estados Unidos Mexicanos)", "", "", "", "", "");
         us.setUsername(SessionUtils.getUserName());
         try (Connection conn = DbSingleton.getConnection(); Statement stmt = conn.createStatement();) {
             String query = "insert into v1_2.usuarioSolicitud (nombres,apellidoPaterno,"

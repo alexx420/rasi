@@ -16,3 +16,11 @@ PrimeFaces.locales['es'] = {
     timeOnlyTitle: 'Sólo hora', timeText: 'Tiempo', hourText: 'Hora', minuteText: 'Minuto',
     secondText: 'Segundo', currentText: 'Hoy', ampm: false, month: 'Mes', week: 'Semana', day: 'Día',
     allDayText: 'Todo el día'};
+
+function ajaxStatusHandler(xhr, status, args) {
+    if (status === 'success') {
+        PF('dlgAddSolicitud').show();
+    }
+}
+
+
