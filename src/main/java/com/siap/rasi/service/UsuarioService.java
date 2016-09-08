@@ -29,7 +29,8 @@ public class UsuarioService {
     }
 
     private Usuario getUser(String username) {
-        try (Connection connection = DbSingleton.getConnection(); PreparedStatement ps = connection.prepareStatement("select * from v1_2.usuario where username=?")) {
+        try (Connection connection = DbSingleton.getConnection();
+                PreparedStatement ps = connection.prepareStatement("select * from v1_2.usuario where username = ? and activo = 1")) {
             ps.setString(1, username);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
