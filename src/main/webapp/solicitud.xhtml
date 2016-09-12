@@ -331,7 +331,7 @@ and open the template in the editor.
 
                         <!--agregar-->
                         <p:commandButton  value="Agregar" icon="ui-icon-plusthick" 
-                                          actionListener="#{solicitudView.addRow}" 
+                                          actionListener="#{solicitudView.isSelectedUser}" 
                                           update="dtSolicitud :formContent:msgs">
                         </p:commandButton>
                         <!--eliminar-->
@@ -364,9 +364,10 @@ and open the template in the editor.
     </f:view>
     <!--formulario usuario-->
     <h:form>
+        <p:dialog id="dlgUser" header="Nuevo usuario" widgetVar="dlgAddUsuario" modal="true"
+                  closeOnEscape="true" dynamic="true">
+            <p:ajax event="close" update="dlgUser"/>
 
-        <p:dialog header="Nuevo usuario" widgetVar="dlgAddUsuario" modal="true"
-                  closeOnEscape="true" >
             <p:messages id="msgsFormUsuario" />
             <h:panelGrid columns="4" cellpadding="5">
                 <!--nombres-->
@@ -415,7 +416,7 @@ and open the template in the editor.
                 <p:inputMask id="telefonoFijo" value="#{solicitanteView.telefonoFijo}" mask="99 99 99 99 99? x99999" label="Teléfono fijo" required="true"/>
                 <!--celular mask input-->
                 <p:outputLabel for="telefonoCelular" value="Teléfono celular"/>
-                <p:inputMask id="telefonoCelular" value="#{solicitanteView.telefonoCelular}" mask="(999) 99 99 99 99 99" label="Teléfono celular" required="true"/>
+                <p:inputMask id="telefonoCelular" value="#{solicitanteView.telefonoCelular}" mask="(999) 99 99 99 99 99" label="Teléfono celular"/>
                 <!--correo validacion-->
                 <p:outputLabel for="correo" value="Correo" />
                 <p:inputText id="correo" value="#{solicitanteView.correo}" label="Correo" required="true">
@@ -434,12 +435,16 @@ and open the template in the editor.
                                  actionListener="#{solicitanteView.addRow}" icon="ui-icon-check" 
                                  oncomplete="if (!args.validationFailed){PF('dlgAddUsuario').hide()}"></p:commandButton>
             </f:facet>
+
         </p:dialog>  
     </h:form>
+
     <!--formulario solicitud-->
     <h:form>
-        <p:dialog header="Nueva solicitud" widgetVar="dlgAddSolicitud" modal="true"
-                  closeOnEscape="true" >
+        <p:dialog id="dlgSolicitud" header="Nueva solicitud" widgetVar="dlgAddSolicitud" modal="true"
+                  closeOnEscape="true" dynamic="true" >
+            <p:ajax event="close" update="dlgSolicitud"/>
+
             <p:messages id="msgsFormSolicitud" />
             <h:panelGrid columns="4" cellpadding="5">
                 <!--fecha calendar-->

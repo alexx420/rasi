@@ -225,16 +225,20 @@ public class SolicitudInformacionView implements Serializable {
     }
 
     public void addRow() {
+
+        SolicitudInformacion si = new SolicitudInformacion(fecha, tipoInformacion, especifiqueInformacion, viaSolicitud, us.getId(), username);
+        try {
+            si = service.addRow(si);
+            rows.add(0, si);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Solicitud agregada", "ID: " + si.getId()));
+        } catch (SQLException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", ex.getClass().getName()));
+        }
+    }
+
+    public void isSelectedUser() {
         if (us != null) {
             RequestContext.getCurrentInstance().execute("PF('dlgAddSolicitud').show()");
-            SolicitudInformacion si = new SolicitudInformacion(fecha, tipoInformacion, especifiqueInformacion, viaSolicitud, us.getId(), username);
-            try {
-                si = service.addRow(si);
-                rows.add(0, si);
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Solicitud agregada", "ID: " + si.getId()));
-            } catch (SQLException ex) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", ex.getClass().getName()));
-            }
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Debes seleccionar un usuario"));
         }

@@ -22,6 +22,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.SelectEvent;
@@ -273,10 +274,26 @@ public class UsuarioSolicitudView implements Serializable {
 
     public void addRow() {
         UsuarioSolicitud us = new UsuarioSolicitud(0L, nombres, apellidoPaterno,
-                apellidoMaterno, sexo, ocupacion, pais, entidadFederativa, institucion, telefonoFijo, telefonoCelular, correo, recibirInformacion);
+                apellidoMaterno, sexo, ocupacion, pais, entidadFederativa, institucion,
+                telefonoFijo, telefonoCelular, correo, recibirInformacion);
         us = service.addRow(us);
         rows.add(0, us);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario agregado", "ID: " + us.getId()));
+    }
+
+    public void resetForm() {
+        nombres = "";
+        apellidoPaterno = "";
+        apellidoMaterno = "";
+        sexo = "";
+        ocupacion = "";
+        pais = "";
+        entidadFederativa = "";
+        institucion = "";
+        telefonoFijo = "";
+        telefonoCelular = "";
+        correo = "";
+        recibirInformacion = true;
     }
 
     public void deleteSelected() {
